@@ -12,7 +12,7 @@
 
     <h2>Average Score: {{ averageScore }}/10</h2>
 
-<ion-card *ngFor="let r of results">
+<ion-card *ngFor="let r of results; let i = index">
   <ion-card-header>
     <ion-card-title>{{ r.question }}</ion-card-title>
     <ion-card-subtitle>Topic: {{ r.topic }}</ion-card-subtitle>
@@ -20,7 +20,7 @@
 
   <ion-card-content>
 
-    <!-- 🔥 STATUS BADGE -->
+    <!-- 🔥 STATUS BADGES -->
     <ion-badge color="success" *ngIf="r.score >= 7">
       Correct
     </ion-badge>
@@ -28,6 +28,15 @@
     <ion-badge color="danger" *ngIf="r.score < 7">
       Wrong
     </ion-badge>
+
+<ion-badge color="tertiary" *ngIf="i === bestIndex && results.length > 1">
+  🏆 Best Question
+</ion-badge>
+
+<ion-badge color="warning" *ngIf="i === weakestIndex && results.length > 1">
+  ⭐ Weakest Question
+</ion-badge>
+
 
     <p><strong>Your Answer:</strong> {{ r.userAnswer }}</p>
     <p><strong>Correct Answer:</strong> {{ r.correctAnswer || r.improvedAnswer }}</p>
