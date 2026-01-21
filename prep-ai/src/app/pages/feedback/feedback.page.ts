@@ -21,7 +21,14 @@ export class FeedbackPage implements OnInit {
   constructor(private ai: AiService) {}
 
   ngOnInit() {
-    const session = JSON.parse(localStorage.getItem('sessionQuestions') || '[]');
+   
+  }
+
+  ionViewWillEnter() {
+    this.results = [];
+  this.averageScore = 0;
+
+     const session = JSON.parse(localStorage.getItem('sessionQuestions') || '[]');
 
     if (!session.length) {
       this.loading = false;
@@ -36,15 +43,20 @@ export class FeedbackPage implements OnInit {
       if (q.mode === 'mcq') {
         const isCorrect = q.userIndex === q.correctIndex;
         const score = isCorrect ? 10 : 3;
+    const correctText = q.explanation;
 
-        this.results.push({
-          question: q.question,
-          topic: q.topic,
-          userAnswer: q.options[q.userIndex] || 'N/A',
-          correctAnswer: q.options[q.correctIndex],
-          feedback: isCorrect ? 'Correct' : 'Incorrect',
-          score
-        });
+     
+    this.results.push({
+      mode: 'mcq',
+      question: q.question,
+      topic: q.topic,
+      userAnswer: q.options[q.userIndex] || 'N/A',
+      correctAnswer: correctText,
+      feedback: isCorrect ? 'Correct answer selected.' : 'Incorrect answer selected.',
+      explanation: `The correct answer is "${correctText}". This option is correct based on the concept of ${q.topic}.`,
+      score
+    });
+
 
         this.totalScore += score;
         pending--;
@@ -59,12 +71,16 @@ export class FeedbackPage implements OnInit {
           q.question,
           q.userAnswer || ''
         ).subscribe(res => {
-          this.results.push({
-            question: q.question,
-            topic: q.topic,
-            userAnswer: q.userAnswer || '',
-            ...res
-          });
+  this.results.push({
+        mode: 'text',
+        question: q.question,
+        topic: q.topic,
+        userAnswer: q.userAnswer || '',
+        correctAnswer: res.improvedAnswer,
+        feedback: res.feedback,
+        explanation: res.explanation || res.feedback,   // 🔥 ALWAYS SAVE EXPLANATION
+        score: res.score
+      });
 
           this.totalScore += res.score;
           pending--;
@@ -88,5 +104,8 @@ export class FeedbackPage implements OnInit {
     });
 
     localStorage.setItem('history', JSON.stringify(history));
+    localStorage.removeItem('sessionQuestions');
+localStorage.removeItem('currentQuestionIndex');
+
   }
 }

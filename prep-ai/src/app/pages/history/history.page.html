@@ -32,25 +32,28 @@
   </div>
 
   <!-- SESSION LIST -->
-  <ion-card *ngFor="let s of sessions">
+<ion-card *ngFor="let s of sessions; let i = index" (click)="openSession(i)" class="session-card">
 
-    <ion-card-header>
-      <ion-card-title>{{ s.date | date:'medium' }}</ion-card-title>
-      <ion-card-subtitle>
-        Average Score: {{ s.averageScore }}/10
-      </ion-card-subtitle>
-    </ion-card-header>
 
-    <ion-card-content>
-      <p><strong>Total Questions:</strong> {{ s.results?.length || 0 }}</p>
+<ion-card-header>
+<ion-card-title>{{ s.date | date:'medium' }}</ion-card-title>
+<ion-card-subtitle>
+Average Score: {{ s.averageScore }}/10
+</ion-card-subtitle>
+</ion-card-header>
 
-      <ion-progress-bar
-        [value]="s.averageScore / 10"
-        color="success">
-      </ion-progress-bar>
 
-    </ion-card-content>
+<ion-card-content>
+<p><strong>Total Questions:</strong> {{ s.results?.length || 0 }}</p>
 
-  </ion-card>
+
+<ion-progress-bar
+[value]="s.averageScore / 10"
+color="success">
+</ion-progress-bar>
+
+
+</ion-card-content>
+</ion-card>
 
 </ion-content>

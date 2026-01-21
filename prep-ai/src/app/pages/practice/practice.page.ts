@@ -24,49 +24,92 @@ export class PracticePage implements OnInit {
 
   constructor(private router: Router, private ai: AiService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  // 🔥 Called every time page opens
+  ionViewWillEnter() {
+
+    // Load selections
     this.role = localStorage.getItem('selectedRole') || 'frontend';
     this.difficulty = localStorage.getItem('selectedDifficulty') || 'easy';
     this.mode = (localStorage.getItem('selectedMode') as any) || 'text';
 
-    this.addNewQuestion(); // load first question
+    // 🔥 CHECK IF THERE IS AN UNFINISHED SESSION
+    const savedSession = localStorage.getItem('sessionQuestions');
+    const savedIndex = localStorage.getItem('currentQuestionIndex');
+
+    if (savedSession) {
+      // 🔁 RESTORE PREVIOUS SESSION
+      this.questions = JSON.parse(savedSession);
+      this.currentIndex = Number(savedIndex || 0);
+      this.loading = false;
+
+      console.log('Restored previous session');
+      return;
+    }
+
+    // 🆕 NO SESSION → START FRESH
+    this.questions = [];
+    this.currentIndex = 0;
+    this.addNewQuestion();
+  }
+
+  // 🔥 Save active session (auto resume feature)
+  saveSession() {
+    localStorage.setItem('sessionQuestions', JSON.stringify(this.questions));
+    localStorage.setItem('currentQuestionIndex', String(this.currentIndex));
   }
 
   get currentQuestion() {
     return this.questions[this.currentIndex];
   }
 
+  // 🔥 Load a new question
   addNewQuestion() {
     this.loading = true;
 
     if (this.mode === 'mcq') {
       this.ai.getMcqQuestion(this.role, this.difficulty).subscribe({
         next: (res: any) => {
+
           this.questions.push({
+            mode: 'mcq',
             question: res.question,
             topic: res.topic,
             options: res.options,
             correctIndex: res.correctIndex,
-            mode: 'mcq'
+            explanation: res.explanation || '',
+            userIndex: null
           });
+
           this.currentIndex = this.questions.length - 1;
           this.loading = false;
+
+          // 🔥 Save session
+          this.saveSession();
         },
         error: () => {
           alert('Failed to load MCQ question');
           this.loading = false;
         }
       });
+
     } else {
       this.ai.getQuestion(this.role, this.difficulty).subscribe({
         next: (res: any) => {
+
           this.questions.push({
+            mode: 'text',
             question: res.question,
             topic: res.topic,
-            mode: 'text'
+            userAnswer: ''
           });
+
           this.currentIndex = this.questions.length - 1;
           this.loading = false;
+
+          // 🔥 Save session
+          this.saveSession();
         },
         error: () => {
           alert('Failed to load question');
@@ -76,20 +119,40 @@ export class PracticePage implements OnInit {
     }
   }
 
+  // 🔥 When user selects MCQ option
+  selectOption(index: number) {
+    this.currentQuestion.userIndex = index;
+    this.saveSession();
+  }
+
+  // 🔥 When user types text answer (call from template on blur)
+  saveTextAnswer() {
+    this.saveSession();
+  }
+
   next() {
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++;
+      this.saveSession();
     }
   }
 
   prev() {
     if (this.currentIndex > 0) {
       this.currentIndex--;
+      this.saveSession();
     }
   }
 
+  // 🔥 FINAL SUBMIT – FINISH SESSION
   submitAll() {
+
+    // Save final session for feedback page
     localStorage.setItem('sessionQuestions', JSON.stringify(this.questions));
+
+    // 🔥 Clear only index (feedback still needs questions)
+    localStorage.removeItem('currentQuestionIndex');
+
     this.router.navigate(['tabs/feedback']);
   }
 }

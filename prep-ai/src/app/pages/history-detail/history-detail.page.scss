@@ -1,0 +1,54 @@
+.summary-card {
+background: linear-gradient(135deg, #4f46e5, #6366f1);
+color: white;
+border-radius: 16px;
+text-align: center;
+}
+
+
+.result-card {
+border-radius: 16px;
+}
+
+
+.score {
+margin-top: 10px;
+font-weight: bold;
+}
+
+
+ion-badge {
+margin-right: 10px;
+}
+
+.chart-card {
+border-radius: 16px;
+margin-bottom: 20px;
+}
+
+
+canvas {
+max-height: 250px;
+}
+.result-card {
+border-radius: 16px;
+margin-bottom: 16px;
+}
+
+
+/* 🔥 Highlight weakest question */
+.result-card.weakest {
+border: 2px solid #f97316;
+background: #fff7ed;
+}
+
+
+.score {
+margin-top: 10px;
+font-weight: bold;
+}
+
+
+ion-badge[color="warning"] {
+margin-bottom: 10px;
+}

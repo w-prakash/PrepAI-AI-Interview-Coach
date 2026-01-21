@@ -30,8 +30,9 @@ ${userAnswer}
 
 Respond ONLY in strict JSON like this:
 {
-  "feedback": "string",
-  "improvedAnswer": "string",
+  "feedback": "short feedback string",
+  "improvedAnswer": "correct or improved answer",
+  "explanation": "detailed step-by-step explanation of the correct concept",
   "score": 0,
   "topic": "string"
 }
@@ -124,13 +125,15 @@ Rules:
 - The correct answer MUST be one of the options
 - Do NOT return A/B/C/D
 - Return the actual correct option text
+- ALSO provide a short explanation of why this option is correct
 
 JSON format:
 {
   "question": "string",
   "options": ["opt1", "opt2", "opt3", "opt4"],
   "correctAnswer": "opt2",
-  "topic": "string"
+  "topic": "string",
+  "explanation": "brief 2-5 sentence explanation"
 }
 `;
 
@@ -160,11 +163,13 @@ JSON format:
       return res.status(500).json({ error: "Correct answer mismatch" });
     }
 
+    // 🔥 SEND EXPLANATION ALSO
     res.json({
       question: json.question,
       options: json.options,
       correctIndex,
-      topic: json.topic
+      topic: json.topic,
+      explanation: json.explanation || `The correct answer is "${json.correctAnswer}".`
     });
 
   } catch (err) {

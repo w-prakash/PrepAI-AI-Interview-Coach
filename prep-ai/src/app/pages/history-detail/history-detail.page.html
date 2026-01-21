@@ -1,0 +1,83 @@
+<ion-header>
+<ion-toolbar>
+
+
+<ion-buttons slot="start">
+<ion-back-button defaultHref="/tabs/history"></ion-back-button>
+</ion-buttons>
+
+
+<ion-title>Session Details</ion-title>
+
+
+</ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+
+<div *ngIf="session">
+
+
+<ion-card class="summary-card">
+<ion-card-content>
+<h2>{{ session.date | date:'medium' }}</h2>
+<p><strong>Average Score:</strong> {{ session.averageScore }}/10</p>
+<p><strong>Total Questions:</strong> {{ session.results.length }}</p>
+</ion-card-content>
+</ion-card>
+
+<!-- MINI PERFORMANCE CHART -->
+<ion-card class="chart-card">
+<ion-card-header>
+<ion-card-title>Performance by Question</ion-card-title>
+</ion-card-header>
+
+
+<ion-card-content>
+<canvas id="questionChart"></canvas>
+</ion-card-content>
+</ion-card>
+<ion-card *ngFor="let r of session.results; let i = index"
+class="result-card"
+[class.weakest]="i === weakestIndex"
+(click)="openQuestion(i)">
+
+
+<ion-card-header>
+<ion-card-title>Question {{ i + 1 }}</ion-card-title>
+<ion-card-subtitle>Topic: {{ r.topic }}</ion-card-subtitle>
+</ion-card-header>
+
+
+<ion-card-content>
+
+
+<!-- 🔥 WEAKEST BADGE -->
+<ion-badge color="warning" *ngIf="i === weakestIndex">
+⭐ Weakest Question
+</ion-badge>
+
+
+<p><strong>Question:</strong> {{ r.question }}</p>
+<p><strong>Your Answer:</strong> {{ r.userAnswer }}</p>
+<p><strong>Correct Answer:</strong> {{ r.correctAnswer || r.improvedAnswer }}</p>
+<p><strong>Feedback:</strong> {{ r.feedback }}</p>
+
+
+<ion-badge color="success" *ngIf="r.score >= 7">Correct</ion-badge>
+<ion-badge color="danger" *ngIf="r.score < 7">Wrong</ion-badge>
+
+
+<p class="score">Score: {{ r.score }}/10</p>
+
+
+</ion-card-content>
+</ion-card>
+
+
+</div>
+
+
+</ion-content>

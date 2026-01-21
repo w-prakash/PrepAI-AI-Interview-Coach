@@ -25,8 +25,17 @@ canResume = false;
 
 
   ngOnInit() {
-    const session = localStorage.getItem('sessionQuestions');
-this.canResume = !!session;
+  }
+
+  ionViewWillEnter() {
+      this.totalQuestions = 0;
+ this.averageScore = 0;
+  this.accuracy = 0;
+  this.weakTopics = [];
+this.recentSessions = [];
+  this.topicLabels = [];
+  this.topicScores = [];
+  this.checkResume();   // 🔥 refresh every time user comes back
     const history = JSON.parse(localStorage.getItem('history') || '[]');
 this.recentSessions = history.slice(-3).reverse();
     if (!history.length) return;
@@ -98,16 +107,35 @@ this.recentSessions = history.slice(-3).reverse();
       }
     });
   }
-
 startPractice() {
-    localStorage.removeItem('practiceMode');
-localStorage.removeItem('sessionQuestions');
-this.router.navigate(['/tabs/role-select']);
+  // 🔥 CLEAR ALL OLD SESSION DATA
+  localStorage.removeItem('sessionQuestions');
+  localStorage.removeItem('sessionAnswers');
+  localStorage.removeItem('currentQuestionIndex');
+  localStorage.removeItem('practiceMode');
+  localStorage.removeItem('currentAnswer');
+  localStorage.removeItem('currentAnswerIndex');
+  localStorage.removeItem('mcqCorrectIndex');
+
+  // Go to fresh role select
+  this.router.navigate(['/tabs/role-select']);
 }
+
 
 
 resumePractice() {
 this.router.navigate(['/tabs/practice']);
 }
 
+checkResume() {
+  const session = localStorage.getItem('sessionQuestions');
+
+  if (session) {
+    const questions = JSON.parse(session);
+    this.canResume = questions.length > 0;
+  } else {
+    this.canResume = false;
+  }
+
+}
 }

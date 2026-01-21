@@ -31,7 +31,20 @@ pathMatch: 'full' },
       loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage)
     }
   ]
+},
+{
+path: 'history-detail/:index',
+loadComponent: () => import('./pages/history-detail/history-detail.page').then(m => m.HistoryDetailPage)
+},
+{
+  path: 'question-detail/:sessionIndex/:questionIndex',
+  loadComponent: () =>
+    import('./pages/question-detail/question-detail.page')
+      .then(m => m.QuestionDetailPage)
 }
+
+
+
 
 
 

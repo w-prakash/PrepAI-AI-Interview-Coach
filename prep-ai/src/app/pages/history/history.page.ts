@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -8,14 +9,16 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule],
+    imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class HistoryPage implements OnInit {
 sessions: any[] = [];
-  constructor() { }
-
+constructor(private router: Router) {}
   ngOnInit() {
-    this.sessions = JSON.parse(localStorage.getItem('history') || '[]').reverse();
+  }
+
+  ionViewWillEnter() {
+        this.sessions = JSON.parse(localStorage.getItem('history') || '[]').reverse();
   }
 
     clearHistory() {
@@ -24,5 +27,9 @@ sessions: any[] = [];
       this.sessions = [];
     }
   }
+
+  openSession(index: number) {
+this.router.navigate(['/history-detail', index]);
+}
 
 }

@@ -1,0 +1,77 @@
+<ion-header>
+<ion-toolbar>
+
+
+<ion-buttons slot="start">
+<ion-back-button defaultHref="/tabs/history"></ion-back-button>
+</ion-buttons>
+
+
+<ion-title>Question Explanation</ion-title>
+
+
+</ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+
+<div *ngIf="question">
+
+
+<ion-card class="question-card">
+<ion-card-content>
+<h2>{{ question.question }}</h2>
+<p><strong>Topic:</strong> {{ question.topic }}</p>
+</ion-card-content>
+</ion-card>
+
+
+<ion-card>
+<ion-card-content>
+<p><strong>Your Answer:</strong></p>
+<p>{{ question.userAnswer }}</p>
+
+
+<p><strong>Correct Answer:</strong></p>
+<p>{{ question.correctAnswer || question.improvedAnswer }}</p>
+</ion-card-content>
+</ion-card>
+
+
+<ion-card>
+<ion-card-content>
+<p><strong>Feedback:</strong></p>
+<p>{{ question.feedback }}</p>
+</ion-card-content>
+</ion-card>
+
+
+<!-- 🔥 DETAILED EXPLANATION SECTION -->
+<ion-card class="explanation-card">
+  <ion-card-header>
+    <ion-card-title>Detailed Explanation</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>
+      {{ question.explanation || 'No explanation available.' }}
+    </p>
+
+    <p class="tip">
+      💡 Tip: Revise this topic and try similar questions again.
+    </p>
+  </ion-card-content>
+</ion-card>
+
+
+
+<ion-badge color="success" *ngIf="question.score >= 7">Correct</ion-badge>
+<ion-badge color="danger" *ngIf="question.score < 7">Wrong</ion-badge>
+
+
+</div>
+
+
+</ion-content>
