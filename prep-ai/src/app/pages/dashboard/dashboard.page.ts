@@ -16,7 +16,7 @@ export class DashboardPage implements OnInit, AfterViewInit {
   totalQuestions = 0;
   averageScore = 0;
   accuracy = 0;
-  weakTopics: string[] = [];
+  weakTopics: any[] = [];
 recentSessions: any[] = [];
   topicLabels: string[] = [];
   topicScores: number[] = [];
@@ -66,17 +66,18 @@ this.recentSessions = history.slice(-3).reverse();
     this.accuracy = Math.round((correctCount / this.totalQuestions) * 100);
 
     // Prepare topic-wise chart data
-    Object.keys(topicMap).forEach(topic => {
-      const avg = Math.round(topicMap[topic].total / topicMap[topic].count);
-      this.topicLabels.push(topic);
-      this.topicScores.push(avg);
+    // Object.keys(topicMap).forEach(topic => {
+    //   const avg = Math.round(topicMap[topic].total / topicMap[topic].count);
+    //   this.topicLabels.push(topic);
+    //   this.topicScores.push(avg);
 
-      if (avg < 6) {
-        this.weakTopics.push(topic);
-      }
-      console.log("topic...",this.weakTopics);
+    //   if (avg < 6) {
+    //     this.weakTopics.push(topic);
+    //   }
+    //   console.log("topic...",this.weakTopics);
+this.loadWeakTopics();
 
-    });
+    // });
   }
 
   ngAfterViewInit() {
@@ -153,5 +154,50 @@ console.log("topic...",this.weakTopics, topic);
   // Navigate to practice directly
   this.router.navigate(['/tabs/practice']);
 }
+
+loadWeakTopics() {
+  const history = JSON.parse(localStorage.getItem('history') || '[]');
+
+  const topicMap: any = {};
+
+  // Collect all scores by topic
+  history.forEach((session: any) => {
+    session.results.forEach((r: any) => {
+      if (!topicMap[r.topic]) {
+        topicMap[r.topic] = { total: 0, count: 0 };
+      }
+
+      topicMap[r.topic].total += r.score;
+      topicMap[r.topic].count += 1;
+    });
+  });
+
+  // Build weak topics list with average score
+  const topics = Object.keys(topicMap).map(topic => {
+    const avg = Math.round(topicMap[topic].total / topicMap[topic].count);
+
+    return { topic, avg };
+  });
+
+  // Sort by weakest first (low score first)
+  topics.sort((a, b) => a.avg - b.avg);
+
+  // Take only weakest 8–10 topics (optional limit)
+  this.weakTopics = topics.slice(0, 10);
+}
+
+getWeakColor(avg: number): string {
+
+  if (avg <= 4) {
+    return 'danger';   // 🔴 Very weak
+  }
+
+  if (avg <= 7) {
+    return 'warning';  // 🟠 Medium weak
+  }
+
+  return 'tertiary';   // 🟡 Slight weak
+}
+
 
 }
