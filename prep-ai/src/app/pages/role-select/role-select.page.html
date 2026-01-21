@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Select Role & Difficulty</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<h3 class="ion-margin-top">Select Difficulty</h3>
+
+<ion-radio-group [(ngModel)]="difficulty">
+
+  <ion-item>
+    <ion-label>Easy</ion-label>
+    <ion-radio slot="start" value="easy"></ion-radio>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Medium</ion-label>
+    <ion-radio slot="start" value="medium"></ion-radio>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Hard</ion-label>
+    <ion-radio slot="start" value="hard"></ion-radio>
+  </ion-item>
+
+</ion-radio-group>
+<h3 class="ion-margin-top">Practice Mode</h3>
+
+<ion-radio-group [(ngModel)]="mode">
+
+  <ion-item>
+    <ion-label>Answer the Question</ion-label>
+    <ion-radio slot="start" value="text"></ion-radio>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Choose the Correct Answer (MCQ)</ion-label>
+    <ion-radio slot="start" value="mcq"></ion-radio>
+  </ion-item>
+
+</ion-radio-group>
+
+
+  <h3>Select Role</h3>
+  <ion-list>
+    <ion-item button (click)="selectRole('angular')">
+      Angular Developer
+    </ion-item>
+    <ion-item button (click)="selectRole('ionic')">
+      Ionic Developer
+    </ion-item>
+    <ion-item button (click)="selectRole('frontend')">
+      Frontend Developer
+    </ion-item>
+  </ion-list>
+
+</ion-content>

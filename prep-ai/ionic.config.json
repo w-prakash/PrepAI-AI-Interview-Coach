@@ -1,0 +1,7 @@
+{
+  "name": "prep-ai",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

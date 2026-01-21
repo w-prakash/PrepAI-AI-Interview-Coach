@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Session Result</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <div *ngIf="!loading">
+
+    <h2>Average Score: {{ averageScore }}/10</h2>
+
+    <ion-card *ngFor="let r of results">
+      <ion-card-header>
+        <ion-card-title>{{ r.question }}</ion-card-title>
+        <ion-card-subtitle>Topic: {{ r.topic }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Your Answer:</strong> {{ r.userAnswer }}</p>
+        <p><strong>Correct Answer:</strong> {{ r.correctAnswer || r.improvedAnswer }}</p>
+        <p><strong>Feedback:</strong> {{ r.feedback }}</p>
+        <p><strong>Score:</strong> {{ r.score }}/10</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" routerLink="/dashboard">
+      Go to Dashboard
+    </ion-button>
+
+  </div>
+
+</ion-content>
