@@ -24,6 +24,7 @@ recentSessions: any[] = [];
   topicLabels: string[] = [];
   topicScores: number[] = [];
 canResume = false;
+
   constructor(private router: Router) {}
 
 
@@ -107,13 +108,16 @@ loadChart() {
     type: 'bar',
     data: {
       labels: this.topicLabels,
-      datasets: [
-        {
-          label: 'Average Score per Topic',
-          data: this.topicScores,
-          backgroundColor: '#4f46e5'
-        }
-      ]
+ datasets: [
+  {
+    label: 'Average Score per Topic',
+    data: this.topicScores,
+    backgroundColor: this.getBarColors(this.topicScores),
+    borderRadius: 6,
+    borderSkipped: false
+  }
+]
+
     },
     options: {
       responsive: true,
@@ -215,6 +219,25 @@ getWeakColor(avg: number): string {
   }
 
   return 'tertiary';   // 🟡 Slight weak
+}
+
+getBarColors(scores: number[]): string[] {
+  return scores.map(score => {
+
+    if (score <= 4) {
+      return '#ef4444';   // 🔴 Red - very weak
+    }
+
+    if (score <= 7) {
+      return '#f59e0b';   // 🟠 Orange - medium
+    }
+
+    if (score <= 9) {
+      return '#eab308';   // 🟡 Yellow - improving
+    }
+
+    return '#22c55e';     // 🟢 Green - strong
+  });
 }
 
 
