@@ -1,13 +1,83 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>dashboard</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Dashboard</ion-title>
+        <!-- Home Button -->
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <!-- SUMMARY CARDS -->
+  <ion-grid>
+    <ion-row>
+      <ion-card class="start-card">
+  <ion-card-content>
+
+    <h2>Ready to Practice?</h2>
+    <p>Start a new interview session and improve your skills.</p>
+
+    <ion-button expand="block" size="large" color="success" (click)="startPractice()">
+      🚀 Start Practice
+    </ion-button>
+
+  </ion-card-content>
+</ion-card>
+
+      <ion-col size="6">
+        <ion-card class="stat-card">
+          <h2>{{ totalQuestions }}</h2>
+          <p>Total Questions</p>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="stat-card">
+          <h2>{{ averageScore }}/10</h2>
+          <p>Average Score</p>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="stat-card">
+          <h2>{{ accuracy }}%</h2>
+          <p>Accuracy</p>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="stat-card weak">
+          <h2>{{ weakTopics.length }}</h2>
+          <p>Weak Topics</p>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- BAR CHART -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Performance by Topic</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas id="topicChart"></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- WEAK TOPICS LIST -->
+  <ion-card *ngIf="weakTopics.length">
+    <ion-card-header>
+      <ion-card-title>Focus Areas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-chip color="danger" *ngFor="let t of weakTopics">
+        {{ t }}
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
   {
     path: 'home',
@@ -28,7 +28,8 @@ const routes: Routes = [
     path: 'dashboard',
     loadComponent: () =>
       import('./pages/dashboard/dashboard.page').then(m => m.DashboardPage),
-  },
+  }
+
 ];
 
 @NgModule({
