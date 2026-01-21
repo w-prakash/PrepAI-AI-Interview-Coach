@@ -90,6 +90,6 @@ export class PracticePage implements OnInit {
 
   submitAll() {
     localStorage.setItem('sessionQuestions', JSON.stringify(this.questions));
-    this.router.navigate(['/feedback']);
+    this.router.navigate(['tabs/feedback']);
   }
 }

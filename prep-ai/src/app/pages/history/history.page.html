@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- Back to Dashboard -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Session History</ion-title>
+
+    <!-- Clear History Button -->
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="clearHistory()" *ngIf="sessions && sessions.length">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- EMPTY STATE -->
+  <div *ngIf="sessions && sessions.length === 0" class="empty-state">
+    <ion-icon name="time-outline"></ion-icon>
+    <h2>No Practice History</h2>
+    <p>Start a practice session to see your results here.</p>
+
+    <ion-button expand="block" routerLink="/tabs/dashboard">
+      Go to Dashboard
+    </ion-button>
+  </div>
+
+  <!-- SESSION LIST -->
+  <ion-card *ngFor="let s of sessions">
+
+    <ion-card-header>
+      <ion-card-title>{{ s.date | date:'medium' }}</ion-card-title>
+      <ion-card-subtitle>
+        Average Score: {{ s.averageScore }}/10
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Total Questions:</strong> {{ s.results?.length || 0 }}</p>
+
+      <ion-progress-bar
+        [value]="s.averageScore / 10"
+        color="success">
+      </ion-progress-bar>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

@@ -17,16 +17,18 @@ export class DashboardPage implements OnInit, AfterViewInit {
   averageScore = 0;
   accuracy = 0;
   weakTopics: string[] = [];
-
+recentSessions: any[] = [];
   topicLabels: string[] = [];
   topicScores: number[] = [];
-
+canResume = false;
   constructor(private router: Router) {}
 
 
   ngOnInit() {
+    const session = localStorage.getItem('sessionQuestions');
+this.canResume = !!session;
     const history = JSON.parse(localStorage.getItem('history') || '[]');
-
+this.recentSessions = history.slice(-3).reverse();
     if (!history.length) return;
 
     const topicMap: any = {};
@@ -96,13 +98,16 @@ export class DashboardPage implements OnInit, AfterViewInit {
       }
     });
   }
-  startPractice() {
-  // Clear old session if any
-  localStorage.removeItem('sessionQuestions');
-  localStorage.removeItem('practiceMode');
 
-  // Go to role & difficulty selection
-  this.router.navigate(['/role-select']);
+startPractice() {
+    localStorage.removeItem('practiceMode');
+localStorage.removeItem('sessionQuestions');
+this.router.navigate(['/tabs/role-select']);
+}
+
+
+resumePractice() {
+this.router.navigate(['/tabs/practice']);
 }
 
 }

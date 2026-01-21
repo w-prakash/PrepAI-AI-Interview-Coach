@@ -2,11 +2,11 @@
   <ion-toolbar color="primary">
     <ion-title>Dashboard</ion-title>
         <!-- Home Button -->
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button routerLink="/home">
         <ion-icon name="home-outline"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -15,17 +15,25 @@
   <!-- SUMMARY CARDS -->
   <ion-grid>
     <ion-row>
-      <ion-card class="start-card">
-  <ion-card-content>
+<ion-card class="start-card">
+<ion-card-content>
 
-    <h2>Ready to Practice?</h2>
-    <p>Start a new interview session and improve your skills.</p>
 
-    <ion-button expand="block" size="large" color="success" (click)="startPractice()">
-      🚀 Start Practice
-    </ion-button>
+<h2>Ready to Practice?</h2>
+<p>Start or continue your interview session.</p>
 
-  </ion-card-content>
+
+<ion-button expand="block" size="large" color="success" (click)="startPractice()">
+🚀 Start Practice
+</ion-button>
+
+
+<ion-button expand="block" color="medium" *ngIf="canResume" (click)="resumePractice()">
+🔁 Resume Last Session
+</ion-button>
+
+
+</ion-card-content>
 </ion-card>
 
       <ion-col size="6">
@@ -67,6 +75,22 @@
       <canvas id="topicChart"></canvas>
     </ion-card-content>
   </ion-card>
+
+  <ion-card *ngIf="recentSessions.length">
+<ion-card-header>
+<ion-card-title>Recent Sessions</ion-card-title>
+</ion-card-header>
+
+
+<ion-card-content>
+<ion-item *ngFor="let s of recentSessions">
+<ion-label>
+<h3>{{ s.date | date:'short' }}</h3>
+<p>Avg Score: {{ s.averageScore }}/10</p>
+</ion-label>
+</ion-item>
+</ion-card-content>
+</ion-card>
 
   <!-- WEAK TOPICS LIST -->
   <ion-card *ngIf="weakTopics.length">

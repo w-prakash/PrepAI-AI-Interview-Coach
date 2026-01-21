@@ -21,6 +21,6 @@ export class RoleSelectPage {
     localStorage.setItem('selectedDifficulty', this.difficulty);
         localStorage.setItem('selectedMode', this.mode);
 
-    this.router.navigate(['/practice']);
-  }
+  // 🔥 Navigate inside tabs
+  this.router.navigate(['/tabs/practice']);  }
 }
