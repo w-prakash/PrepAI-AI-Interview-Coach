@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import Chart from 'chart.js/auto';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,9 @@ import Chart from 'chart.js/auto';
   standalone: true,
   imports: [IonicModule, CommonModule, RouterModule],
 })
-export class DashboardPage implements OnInit, AfterViewInit {
+export class DashboardPage implements OnInit {
+@ViewChild('topicChart', { static: false }) chartRef!: ElementRef;
+chart: any;
 
   totalQuestions = 0;
   averageScore = 0;
@@ -38,6 +41,7 @@ this.recentSessions = [];
   this.checkResume();   // 🔥 refresh every time user comes back
     const history = JSON.parse(localStorage.getItem('history') || '[]');
 this.recentSessions = history.slice(-3).reverse();
+console.log("recentSessions...", this.recentSessions);
     if (!history.length) return;
 
     const topicMap: any = {};
@@ -66,50 +70,64 @@ this.recentSessions = history.slice(-3).reverse();
     this.accuracy = Math.round((correctCount / this.totalQuestions) * 100);
 
     // Prepare topic-wise chart data
-    // Object.keys(topicMap).forEach(topic => {
-    //   const avg = Math.round(topicMap[topic].total / topicMap[topic].count);
-    //   this.topicLabels.push(topic);
-    //   this.topicScores.push(avg);
+    Object.keys(topicMap).forEach(topic => {
+      const avg = Math.round(topicMap[topic].total / topicMap[topic].count);
+      this.topicLabels.push(topic);
+      this.topicScores.push(avg);
 
-    //   if (avg < 6) {
-    //     this.weakTopics.push(topic);
-    //   }
+      if (avg < 6) {
+        this.weakTopics.push(topic);
+      }
     //   console.log("topic...",this.weakTopics);
 this.loadWeakTopics();
 
-    // });
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => this.loadChart(), 300);
-  }
-
-  loadChart() {
-    const ctx: any = document.getElementById('topicChart');
-
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: this.topicLabels,
-        datasets: [
-          {
-            label: 'Average Score per Topic',
-            data: this.topicScores,
-            backgroundColor: '#4f46e5'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 10
-          }
-        }
-      }
     });
   }
+
+  // ngAfterViewInit() {
+  //   setTimeout(() => this.loadChart(), 300);
+  // }
+ionViewDidEnter() {
+  this.loadChart();
+}
+
+
+loadChart() {
+
+  if (!this.chartRef) return;
+
+  const ctx = this.chartRef.nativeElement.getContext('2d');
+
+  // 🔥 Destroy old chart if exists (important when coming back to dashboard)
+  if (this.chart) {
+    this.chart.destroy();
+  }
+
+  this.chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: this.topicLabels,
+      datasets: [
+        {
+          label: 'Average Score per Topic',
+          data: this.topicScores,
+          backgroundColor: '#4f46e5'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 10
+        }
+      }
+    }
+  });
+}
+
 startPractice() {
   // 🔥 CLEAR ALL OLD SESSION DATA
   localStorage.removeItem('sessionQuestions');

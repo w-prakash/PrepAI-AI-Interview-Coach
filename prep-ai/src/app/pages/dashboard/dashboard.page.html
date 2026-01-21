@@ -83,16 +83,15 @@
     </ion-chip>
   </ion-card-content>
 </ion-card>
-  <!-- BAR CHART -->
+ <!-- BAR CHART -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Performance by Topic</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <canvas id="topicChart"></canvas>
+<canvas #topicChart style="height: 300px;"></canvas>
     </ion-card-content>
   </ion-card>
-
   <ion-card *ngIf="recentSessions.length">
 <ion-card-header>
 <ion-card-title>Recent Sessions</ion-card-title>
@@ -108,7 +107,6 @@
 </ion-item>
 </ion-card-content>
 </ion-card>
-
 
 
 
