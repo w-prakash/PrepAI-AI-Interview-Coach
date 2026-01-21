@@ -63,7 +63,7 @@ Respond ONLY in strict JSON like this:
 });
 app.post("/ai/question", async (req, res) => {
   try {
-    const { role, difficulty } = req.body;
+    const { role, difficulty, topic } = req.body;
 
     console.log("QUESTION REQ:", req.body);
 
@@ -71,11 +71,10 @@ app.post("/ai/question", async (req, res) => {
 You are an interview coach.
 
 Generate ONE ${difficulty} level interview question for a ${role} developer.
+${topic ? `The question MUST be strictly from the topic: ${topic}.` : ''}
 
 Rules:
 - Return ONLY strict JSON
-- Do not add explanation
-- Do not add extra text
 
 JSON format:
 {
@@ -109,7 +108,7 @@ JSON format:
 });
 app.post("/ai/mcq-question", async (req, res) => {
   try {
-    const { role, difficulty } = req.body;
+    const { role, difficulty, topic } = req.body;
 
     console.log("MCQ REQ:", req.body);
 
@@ -117,7 +116,7 @@ app.post("/ai/mcq-question", async (req, res) => {
 You are an interview coach.
 
 Generate ONE ${difficulty} level multiple-choice interview question for a ${role} developer.
-
+${topic ? `The question MUST be strictly from the topic: ${topic}.` : ''}
 Rules:
 - Return ONLY strict JSON
 - Exactly 4 options
@@ -125,7 +124,7 @@ Rules:
 - The correct answer MUST be one of the options
 - Do NOT return A/B/C/D
 - Return the actual correct option text
-- ALSO provide a short explanation of why this option is correct
+- ALSO provide a  explanation of why this option is correct
 
 JSON format:
 {

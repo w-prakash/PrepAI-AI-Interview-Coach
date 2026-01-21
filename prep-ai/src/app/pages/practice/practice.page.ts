@@ -13,6 +13,7 @@ import { AiService } from '../../services/ai';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class PracticePage implements OnInit {
+selectedTopic: string | null = null;
 
   questions: any[] = [];
   currentIndex = 0;
@@ -28,11 +29,17 @@ export class PracticePage implements OnInit {
 
   // 🔥 Called every time page opens
   ionViewWillEnter() {
+const selectedTopic = localStorage.getItem('selectedTopic');
+
+if (selectedTopic) {
+  console.log('Practicing weak topic:', selectedTopic);
+}
 
     // Load selections
     this.role = localStorage.getItem('selectedRole') || 'frontend';
     this.difficulty = localStorage.getItem('selectedDifficulty') || 'easy';
     this.mode = (localStorage.getItem('selectedMode') as any) || 'text';
+this.selectedTopic = localStorage.getItem('selectedTopic');
 
     // 🔥 CHECK IF THERE IS AN UNFINISHED SESSION
     const savedSession = localStorage.getItem('sessionQuestions');
@@ -69,7 +76,7 @@ export class PracticePage implements OnInit {
     this.loading = true;
 
     if (this.mode === 'mcq') {
-      this.ai.getMcqQuestion(this.role, this.difficulty).subscribe({
+      this.ai.getMcqQuestion(this.role, this.difficulty, localStorage.getItem('selectedTopic')).subscribe({
         next: (res: any) => {
 
           this.questions.push({
@@ -95,7 +102,7 @@ export class PracticePage implements OnInit {
       });
 
     } else {
-      this.ai.getQuestion(this.role, this.difficulty).subscribe({
+      this.ai.getQuestion(this.role, this.difficulty, localStorage.getItem('selectedTopic')).subscribe({
         next: (res: any) => {
 
           this.questions.push({

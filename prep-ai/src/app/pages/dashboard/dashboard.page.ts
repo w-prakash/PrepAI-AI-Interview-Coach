@@ -74,6 +74,8 @@ this.recentSessions = history.slice(-3).reverse();
       if (avg < 6) {
         this.weakTopics.push(topic);
       }
+      console.log("topic...",this.weakTopics);
+
     });
   }
 
@@ -138,4 +140,18 @@ checkResume() {
   }
 
 }
+
+practiceWeakTopic(topic: string) {
+console.log("topic...",this.weakTopics, topic);
+  // 🔥 CLEAR OLD SESSION
+  localStorage.removeItem('sessionQuestions');
+  localStorage.removeItem('currentQuestionIndex');
+
+  // 🔥 SAVE SELECTED WEAK TOPIC
+  localStorage.setItem('selectedTopic', topic);
+
+  // Navigate to practice directly
+  this.router.navigate(['/tabs/practice']);
+}
+
 }

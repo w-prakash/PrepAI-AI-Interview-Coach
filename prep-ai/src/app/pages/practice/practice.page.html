@@ -12,6 +12,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+<ion-badge color="warning" *ngIf="selectedTopic">
+  Practicing: {{ selectedTopic }}
+</ion-badge>
 
   <ion-spinner *ngIf="loading"></ion-spinner>
 

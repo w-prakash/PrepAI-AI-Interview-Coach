@@ -92,16 +92,22 @@
 </ion-card-content>
 </ion-card>
 
-  <!-- WEAK TOPICS LIST -->
-  <ion-card *ngIf="weakTopics.length">
-    <ion-card-header>
-      <ion-card-title>Focus Areas</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-chip color="danger" *ngFor="let t of weakTopics">
-        {{ t }}
-      </ion-chip>
-    </ion-card-content>
-  </ion-card>
+<!-- WEAK TOPICS LIST -->
+<ion-card *ngIf="weakTopics.length">
+  <ion-card-header>
+    <ion-card-title>Focus Areas</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-chip 
+      color="danger" 
+      *ngFor="let t of weakTopics"
+      (click)="practiceWeakTopic(t)"
+      style="cursor: pointer;">
+      
+      {{ t }}
+    </ion-chip>
+  </ion-card-content>
+</ion-card>
 
 </ion-content>

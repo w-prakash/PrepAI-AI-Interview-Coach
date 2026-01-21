@@ -14,16 +14,18 @@ export class AiService {
       userAnswer
     });
   }
-  getQuestion(role: string, difficulty: string) {
+  getQuestion(role: string, difficulty: string,  topic?: any) {
   return this.http.post<any>('http://localhost:3000/ai/question', {
     role,
-    difficulty
+    difficulty,
+    topic
   });
 }
-getMcqQuestion(role: string, difficulty: string) {
+getMcqQuestion(role: string, difficulty: string,  topic?: any) {
   return this.http.post<any>('http://localhost:3000/ai/mcq-question', {
     role,
-    difficulty
+    difficulty,
+    topic
   });
 }
 
