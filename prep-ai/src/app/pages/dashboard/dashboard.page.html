@@ -108,6 +108,24 @@
 </ion-card-content>
 </ion-card>
 
+<ion-card>
+  <ion-card-content style="display: flex; align-items: center; gap: 10px;">
+
+    <!-- Loading -->
+    <ion-spinner *ngIf="serverConnected === null"></ion-spinner>
+
+    <!-- Connected -->
+    <div *ngIf="serverConnected === true" style="color: green;">
+      🟢 Server Connected
+    </div>
+
+    <!-- Disconnected -->
+    <div *ngIf="serverConnected === false" style="color: red;">
+      🔴 Server Disconnected
+    </div>
+
+  </ion-card-content>
+</ion-card>
 
 
 </ion-content>

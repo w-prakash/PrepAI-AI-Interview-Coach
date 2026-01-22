@@ -29,4 +29,11 @@ getMcqQuestion(role: string, difficulty: string,  topic?: any) {
   });
 }
 
+checkServer() {
+  return this.http.get(
+    'https://prep-ai-backend-xsoj.onrender.com/health'
+  );
+}
+
+
 }

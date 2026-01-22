@@ -3,6 +3,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Chart, registerables } from 'chart.js';
+import { AiService } from 'src/app/services/ai';
 Chart.register(...registerables);
 
 @Component({
@@ -15,6 +16,7 @@ Chart.register(...registerables);
 export class DashboardPage implements OnInit {
 @ViewChild('topicChart', { static: false }) chartRef!: ElementRef;
 chart: any;
+serverConnected: boolean | null = null;
 
   totalQuestions = 0;
   averageScore = 0;
@@ -25,13 +27,15 @@ recentSessions: any[] = [];
   topicScores: number[] = [];
 canResume = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ai: AiService,) {}
 
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
+      this.checkServerStatus();
+
       this.totalQuestions = 0;
  this.averageScore = 0;
   this.accuracy = 0;
@@ -240,5 +244,17 @@ getBarColors(scores: number[]): string[] {
   });
 }
 
+checkServerStatus() {
+  this.serverConnected = null; // loading state
+
+  this.ai.checkServer().subscribe({
+    next: () => {
+      this.serverConnected = true;
+    },
+    error: () => {
+      this.serverConnected = false;
+    }
+  });
+}
 
 }
