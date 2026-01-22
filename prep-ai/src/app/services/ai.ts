@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
-  private apiUrl = 'http://localhost:3000/ai/evaluate';
+  private apiUrl = 'https://prep-ai-backend-xsoj.onrender.com/ai/evaluate';
 
   constructor(private http: HttpClient) {}
 
@@ -15,14 +15,14 @@ export class AiService {
     });
   }
   getQuestion(role: string, difficulty: string,  topic?: any) {
-  return this.http.post<any>('http://localhost:3000/ai/question', {
+  return this.http.post<any>('https://prep-ai-backend-xsoj.onrender.com/ai/question', {
     role,
     difficulty,
     topic
   });
 }
 getMcqQuestion(role: string, difficulty: string,  topic?: any) {
-  return this.http.post<any>('http://localhost:3000/ai/mcq-question', {
+  return this.http.post<any>('https://prep-ai-backend-xsoj.onrender.com/ai/mcq-question', {
     role,
     difficulty,
     topic
