@@ -65,9 +65,15 @@
       </ion-row>
     </ion-grid>
 
-    <ion-button expand="block" color="medium" (click)="addNewQuestion()">
-      + Add Another Question
-    </ion-button>
+<ion-button 
+  *ngIf="!isTopicQuiz"
+  expand="block" 
+  color="medium" 
+  (click)="addNewQuestion()">
+
+  + Add Another Question
+</ion-button>
+
 
     <ion-button expand="block" color="success" (click)="submitAll()"
       [disabled]="questions.length === 0">

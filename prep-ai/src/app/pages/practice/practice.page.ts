@@ -14,6 +14,7 @@ import { AiService } from '../../services/ai';
 })
 export class PracticePage implements OnInit {
 selectedTopic: string | null = null;
+isTopicQuiz = false;
 
   questions: any[] = [];
   currentIndex = 0;
@@ -40,7 +41,16 @@ if (selectedTopic) {
     this.difficulty = localStorage.getItem('selectedDifficulty') || 'easy';
     this.mode = (localStorage.getItem('selectedMode') as any) || 'text';
 this.selectedTopic = localStorage.getItem('selectedTopic');
+  const topicQuizMode = localStorage.getItem('practiceMode') === 'topic-quiz';
+  // 🔥 SAVE FLAG
+  this.isTopicQuiz = topicQuizMode;
 
+
+  // 🔥 IF QUIZ FROM WEAK TOPIC MODE
+  if (topicQuizMode && this.selectedTopic) {
+    this.loadTopicQuiz(this.selectedTopic);
+    return;
+  }
     // 🔥 CHECK IF THERE IS AN UNFINISHED SESSION
     const savedSession = localStorage.getItem('sessionQuestions');
     const savedIndex = localStorage.getItem('currentQuestionIndex');
@@ -162,4 +172,31 @@ this.selectedTopic = localStorage.getItem('selectedTopic');
 
     this.router.navigate(['tabs/feedback']);
   }
+
+  loadTopicQuiz(topic: string) {
+  this.loading = true;
+
+  this.ai.quizFromTopic(topic, this.role).subscribe({
+    next: (res: any) => {
+
+      // res.questions = array of 5 MCQs
+      this.questions = res.questions.map((q: any) => ({
+        mode: 'mcq',
+        question: q.question,
+        topic: q.topic,
+        options: q.options,
+        correctIndex: q.correctIndex,
+        userIndex: null
+      }));
+
+      this.currentIndex = 0;
+      this.loading = false;
+    },
+    error: () => {
+      alert('Failed to load topic quiz');
+      this.loading = false;
+    }
+  });
+}
+
 }

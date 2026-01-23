@@ -41,5 +41,12 @@ explainTopic(topic: string, role: string) {
   );
 }
 
+quizFromTopic(topic: string, role: string) {
+  return this.http.post(
+    'https://prep-ai-backend-xsoj.onrender.com/ai/quiz-topic',
+    { topic, role }
+  );
+}
+
 
 }

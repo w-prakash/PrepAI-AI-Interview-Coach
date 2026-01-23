@@ -259,6 +259,11 @@ checkServerStatus() {
   });
 }
 
+
+openExplain(topic: string) {
+  this.router.navigate(['/tabs/explain', encodeURIComponent(topic)]);
+}
+
 async openWeakTopicActions(topic: string) {
 
   const actionSheet = await this.actionSheetCtrl.create({
@@ -267,13 +272,19 @@ async openWeakTopicActions(topic: string) {
       {
         text: '🎯 Practice this topic',
         handler: () => {
-          this.practiceWeakTopic(topic);   // 🔥 YOUR EXISTING FUNCTION
+          this.practiceWeakTopic(topic);
         }
       },
       {
         text: '🧠 Explain this topic',
         handler: () => {
-          this.openExplain(topic);          // 🔥 NEW FEATURE
+          this.openExplain(topic);
+        }
+      },
+      {
+        text: '📝 Quiz this topic',
+        handler: () => {
+          this.openQuizFromTopic(topic);   // 🔥 NEW
         }
       },
       {
@@ -286,10 +297,19 @@ async openWeakTopicActions(topic: string) {
   await actionSheet.present();
 }
 
-openExplain(topic: string) {
-  this.router.navigate(['/tabs/explain', encodeURIComponent(topic)]);
-}
+openQuizFromTopic(topic: string) {
 
+  // 🔥 CLEAR OLD SESSION
+  localStorage.removeItem('sessionQuestions');
+  localStorage.removeItem('currentQuestionIndex');
+
+  // Save quiz mode
+  localStorage.setItem('practiceMode', 'topic-quiz');
+  localStorage.setItem('selectedTopic', topic);
+
+  // Go to practice page
+  this.router.navigate(['/tabs/practice']);
+}
 
 
 }
