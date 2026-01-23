@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Select Role</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- 🔍 SEARCH BAR INSIDE HEADER -->
+  <ion-toolbar>
+    <ion-searchbar 
+      [(ngModel)]="searchText" 
+      placeholder="Search role (Angular, Node, Python...)">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngFor="let g of roleGroups">
+
+    <ion-list-header>
+      {{ g.group }}
+    </ion-list-header>
+
+    <ion-item 
+      button 
+      *ngFor="let r of getFilteredRoles(g)"
+      (click)="selectRole(r)">
+
+      {{ r }}
+
+    </ion-item>
+
+  </ion-list>
+
+  <!-- CUSTOM OPTION -->
+  <ion-item button color="medium" (click)="selectRole('custom')">
+    ➕ Other (Type your own…)
+  </ion-item>
+
+</ion-content>

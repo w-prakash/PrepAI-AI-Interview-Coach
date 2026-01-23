@@ -49,17 +49,38 @@
 </ion-radio-group>
 
 
-  <h3>Select Role</h3>
-  <ion-list>
-    <ion-item button (click)="selectRole('angular')">
-      Angular Developer
-    </ion-item>
-    <ion-item button (click)="selectRole('ionic')">
-      Ionic Developer
-    </ion-item>
-    <ion-item button (click)="selectRole('frontend')">
-      Frontend Developer
-    </ion-item>
-  </ion-list>
+<h3>Select Role / Technology</h3>
+
+<ion-item button (click)="openRoleModal()">
+
+  <ion-label>
+    <span *ngIf="!selectedRole">Choose a role</span>
+
+    <span *ngIf="selectedRole" style="color: white; font-weight: 600;">
+      ✅ {{ selectedRole | titlecase }}
+    </span>
+  </ion-label>
+
+</ion-item>
+
+
+<!-- CUSTOM ROLE INPUT -->
+<ion-item *ngIf="selectedRole === 'custom'">
+  <ion-label position="stacked">Enter Custom Role</ion-label>
+  <ion-input 
+    [(ngModel)]="customRole" 
+    placeholder="e.g. DevOps, AWS, Kubernetes">
+  </ion-input>
+</ion-item>
+<ion-button
+  expand="block"
+  color="success"
+  class="ion-margin-top"
+  (click)="startPractice()"
+  [disabled]="!selectedRole && !customRole">
+
+  🚀 Start Practice
+</ion-button>
+
 
 </ion-content>
