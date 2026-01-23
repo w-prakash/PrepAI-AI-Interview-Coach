@@ -141,17 +141,19 @@ localStorage.removeItem('currentQuestionIndex');
 
   }
 
-  async showExplainModal(text: string) {
+async showExplainModal(text: string, question: string) {
 
   const modal = await this.modalCtrl.create({
     component: ExplainModalComponent,
     componentProps: {
-      explanation: text
+      explanation: text,
+      question
     }
   });
 
   await modal.present();
 }
+
 
 explainWrong(r: any, index: number) {
 
@@ -168,7 +170,7 @@ explainWrong(r: any, index: number) {
   }).subscribe({
     next: (res: any) => {
       this.explainingIndex = null;   // 🔥 STOP LOADER
-      this.showExplainModal(res.explanation);
+this.showExplainModal(res.explanation, r.question);
     },
     error: () => {
       this.explainingIndex = null;   // 🔥 STOP LOADER

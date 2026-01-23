@@ -9,9 +9,49 @@
 
 <ion-content class="ion-padding">
 
+  <!-- MAIN EXPLANATION -->
   <ion-card>
     <ion-card-content style="white-space: pre-line; line-height: 1.6;">
       {{ explanation }}
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔥 FOLLOW-UP CHAT SECTION -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ask a follow-up</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-textarea 
+        [(ngModel)]="followText"
+        placeholder="Ask something like: 
+- Explain in simpler terms
+- Give one more example
+- Ask me one practice question">
+      </ion-textarea>
+
+      <ion-button 
+        expand="block" 
+        color="primary" 
+        class="ion-margin-top"
+        (click)="askFollowUp()"
+        [disabled]="loading">
+
+        <ion-spinner *ngIf="loading" name="dots" style="margin-right: 8px;"></ion-spinner>
+        <span *ngIf="!loading">🤖 Ask AI</span>
+        <span *ngIf="loading">Thinking…</span>
+
+      </ion-button>
+
+      <!-- AI REPLY -->
+      <ion-card *ngIf="followReply" class="ion-margin-top">
+        <ion-card-content style="white-space: pre-line;">
+          {{ followReply }}
+        </ion-card-content>
+      </ion-card>
+
     </ion-card-content>
   </ion-card>
 

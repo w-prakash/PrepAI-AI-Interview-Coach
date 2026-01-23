@@ -59,6 +59,17 @@ explainWrong(data: {
     data
   );
 }
+followUp(data: {
+  question: string;
+  context: string;
+  userQuery: string;
+  role: string;
+}) {
+  return this.http.post(
+    'https://prep-ai-backend-xsoj.onrender.com/ai/followup',
+    data
+  );
+}
 
 
 }
