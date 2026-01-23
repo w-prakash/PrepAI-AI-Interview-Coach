@@ -311,5 +311,9 @@ openQuizFromTopic(topic: string) {
   this.router.navigate(['/tabs/practice']);
 }
 
+startMockInterview() {
+  this.router.navigate(['/tabs/mock-interview']);
+}
+
 
 }

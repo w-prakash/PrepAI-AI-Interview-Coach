@@ -34,7 +34,11 @@ pathMatch: 'full' },
   path: 'explain/:topic',
   loadComponent: () => import('./pages/explain-topic/explain-topic.page')
     .then(m => m.ExplainTopicPage)
-}
+},
+  {
+    path: 'mock-interview',
+    loadComponent: () => import('./pages/mock-interview/mock-interview.page').then( m => m.MockInterviewPage)
+  }
   ]
 },
 {
@@ -47,6 +51,7 @@ loadComponent: () => import('./pages/history-detail/history-detail.page').then(m
     import('./pages/question-detail/question-detail.page')
       .then(m => m.QuestionDetailPage)
 }
+
 
 
 

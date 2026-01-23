@@ -66,6 +66,19 @@
     </ion-row>
   </ion-grid>
 <!-- WEAK TOPICS LIST -->
+ <ion-card>
+  <ion-card-header>
+    <ion-card-title>🎤 Mock Interview</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>Simulate a real interview with AI and get full feedback.</p>
+
+    <ion-button expand="block" color="primary" (click)="startMockInterview()">
+      Start Mock Interview
+    </ion-button>
+  </ion-card-content>
+</ion-card>
 <!-- WEAK TOPICS LIST -->
 <ion-card *ngIf="weakTopics.length">
   <ion-card-header>
@@ -83,6 +96,7 @@
     </ion-chip>
   </ion-card-content>
 </ion-card>
+
  <!-- BAR CHART -->
   <ion-card>
     <ion-card-header>

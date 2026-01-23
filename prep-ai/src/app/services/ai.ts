@@ -70,6 +70,19 @@ followUp(data: {
     data
   );
 }
+startMockInterview(role: string, difficulty: string, count: number) {
+  return this.http.post(
+    'https://prep-ai-backend-xsoj.onrender.com/ai/mock-interview/start',
+    { role, difficulty, count }
+  );
+}
+
+evaluateMockInterview(role: string, answers: any[]) {
+  return this.http.post(
+    'https://prep-ai-backend-xsoj.onrender.com/ai/mock-interview/evaluate',
+    { role, answers }
+  );
+}
 
 
 }

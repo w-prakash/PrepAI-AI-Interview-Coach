@@ -1,0 +1,163 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start" *ngIf="finished || (!questions.length && !finished)">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>🎤 Mock Interview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  <!-- SETUP SCREEN -->
+<div *ngIf="!questions.length && !finished">
+
+  <h2>Interview Setup</h2>
+
+  <!-- 🔥 ROLE SELECTION -->
+<!-- ROLE SELECT -->
+<ion-item button (click)="openRoleModal()">
+  <ion-label>
+    Role / Technology
+    <p style="font-size: 13px; color: gray;">
+      {{ selectedRole || 'Select role' }}
+    </p>
+  </ion-label>
+  <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+</ion-item>
+<!-- CUSTOM ROLE INPUT -->
+<ion-item *ngIf="selectedRole === 'custom'">
+  <ion-label position="stacked">Enter Custom Role</ion-label>
+  <ion-input 
+    [(ngModel)]="customRole" 
+    placeholder="e.g. DevOps, AWS, Kubernetes">
+  </ion-input>
+</ion-item>
+
+
+  <!-- DIFFICULTY -->
+  <ion-item>
+    <ion-label>Difficulty</ion-label>
+    <ion-select [(ngModel)]="difficulty">
+      <ion-select-option value="easy">Easy</ion-select-option>
+      <ion-select-option value="medium">Medium</ion-select-option>
+      <ion-select-option value="hard">Hard</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- NUMBER OF QUESTIONS -->
+  <ion-item>
+    <ion-label>Number of Questions</ion-label>
+    <ion-select [(ngModel)]="count">
+      <ion-select-option [value]="5">5</ion-select-option>
+      <ion-select-option [value]="10">10</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" color="success" (click)="start()">
+    🎤 Start Interview
+  </ion-button>
+
+</div>
+
+
+
+  <!-- QUESTION SCREEN -->
+<!-- QUESTION SCREEN -->
+<div *ngIf="questions.length && !finished">
+<!-- TIMER BAR -->
+<ion-item lines="none">
+  <ion-label>
+    ⏱ Time Left: 
+    <span [style.color]="timeLeft <= 10 ? 'red' : 'green'">
+      {{ timeLeft }}s
+    </span>
+  </ion-label>
+</ion-item>
+
+  <h3>Question {{ currentIndex + 1 }} / {{ questions.length }}</h3>
+
+  <ion-card>
+    <ion-card-content>
+      {{ questions[currentIndex]?.question }}
+    </ion-card-content>
+  </ion-card>
+<!-- <ion-progress-bar 
+  [value]="timeLeft / timePerQuestion"
+  color="danger">
+</ion-progress-bar>
+
+<p style="text-align:center; margin-top:6px;">
+  ⏱ {{ timeLeft }} seconds left
+</p> -->
+  <!-- OPTIONS A, B, C, D -->
+  <ion-list>
+    <ion-radio-group [(ngModel)]="questions[currentIndex].userIndex">
+
+      <ion-item *ngFor="let opt of questions[currentIndex].options; let i = index">
+        <ion-label>{{ opt }}</ion-label>
+        <ion-radio slot="start" [value]="i"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-button expand="block" color="primary" (click)="submitAnswer()">
+    {{ currentIndex === questions.length - 1 ? 'Finish Interview' : 'Next Question' }}
+  </ion-button>
+
+</div>
+
+<!-- RESULT SCREEN -->
+<div *ngIf="finished && result">
+
+  <h2>🏆 Interview Result</h2>
+
+  <ion-card>
+    <ion-card-content>
+
+      <h3>Score: {{ result.score }}/10</h3>
+
+      <h4>Strengths</h4>
+      <ul>
+        <li *ngFor="let s of result.strengths">✅ {{ s }}</li>
+      </ul>
+
+      <h4>Weak Areas</h4>
+      <ul>
+        <li *ngFor="let w of result.weakAreas">❌ {{ w }}</li>
+      </ul>
+
+      <h4>Final Feedback</h4>
+      <p>{{ result.feedback }}</p>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔥 SHOW BUTTONS ONLY AFTER INTERVIEW FINISH -->
+  <ion-button 
+    expand="block" 
+    color="primary"
+    class="ion-margin-top"
+    (click)="goToDashboard()">
+
+    🏠 Go to Dashboard
+  </ion-button>
+
+  <ion-button 
+    expand="block" 
+    color="medium"
+    (click)="restartInterview()">
+
+    🔁 Retry Mock Interview
+  </ion-button>
+
+</div>
+
+
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+</ion-content>
