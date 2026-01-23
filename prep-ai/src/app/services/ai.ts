@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
-  private apiUrl = 'https://prep-ai-backend-xsoj.onrender.com/ai/evaluate';
+  private apiUrl = 'https://prep-ai-backend-2xpj.onrender.com/ai/evaluate';
 
   constructor(private http: HttpClient) {}
 
@@ -15,14 +15,14 @@ export class AiService {
     });
   }
   getQuestion(role: string, difficulty: string,  topic?: any) {
-  return this.http.post<any>('https://prep-ai-backend-xsoj.onrender.com/ai/question', {
+  return this.http.post<any>('https://prep-ai-backend-2xpj.onrender.com/ai/question', {
     role,
     difficulty,
     topic
   });
 }
 getMcqQuestion(role: string, difficulty: string,  topic?: any) {
-  return this.http.post<any>('https://prep-ai-backend-xsoj.onrender.com/ai/mcq-question', {
+  return this.http.post<any>('https://prep-ai-backend-2xpj.onrender.com/ai/mcq-question', {
     role,
     difficulty,
     topic
@@ -31,19 +31,19 @@ getMcqQuestion(role: string, difficulty: string,  topic?: any) {
 
 checkServer() {
   return this.http.get(
-    'https://prep-ai-backend-xsoj.onrender.com/health'
+    'https://prep-ai-backend-2xpj.onrender.com/health'
   );
 }
 explainTopic(topic: string, role: string) {
   return this.http.post(
-    'https://prep-ai-backend-xsoj.onrender.com/ai/explain',
+    'https://prep-ai-backend-2xpj.onrender.com/ai/explain',
     { topic, role }
   );
 }
 
 quizFromTopic(topic: string, role: string) {
   return this.http.post(
-    'https://prep-ai-backend-xsoj.onrender.com/ai/quiz-topic',
+    'https://prep-ai-backend-2xpj.onrender.com/ai/quiz-topic',
     { topic, role }
   );
 }
@@ -55,7 +55,7 @@ explainWrong(data: {
   role: string;
 }) {
   return this.http.post(
-    'https://prep-ai-backend-xsoj.onrender.com/ai/explain-wrong',
+    'https://prep-ai-backend-2xpj.onrender.com/ai/explain-wrong',
     data
   );
 }
@@ -66,20 +66,20 @@ followUp(data: {
   role: string;
 }) {
   return this.http.post(
-    'https://prep-ai-backend-xsoj.onrender.com/ai/followup',
+    'https://prep-ai-backend-2xpj.onrender.com/ai/followup',
     data
   );
 }
 startMockInterview(role: string, difficulty: string, count: number) {
   return this.http.post(
-    'https://prep-ai-backend-xsoj.onrender.com/ai/mock-interview/start',
+    'https://prep-ai-backend-2xpj.onrender.com/ai/mock-interview/start',
     { role, difficulty, count }
   );
 }
 
 evaluateMockInterview(role: string, answers: any[]) {
   return this.http.post(
-    'https://prep-ai-backend-xsoj.onrender.com/ai/mock-interview/evaluate',
+    'https://prep-ai-backend-2xpj.onrender.com/ai/mock-interview/evaluate',
     { role, answers }
   );
 }
