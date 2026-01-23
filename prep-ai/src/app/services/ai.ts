@@ -47,6 +47,18 @@ quizFromTopic(topic: string, role: string) {
     { topic, role }
   );
 }
+explainWrong(data: {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  userAnswer: string;
+  role: string;
+}) {
+  return this.http.post(
+    'https://prep-ai-backend-xsoj.onrender.com/ai/explain-wrong',
+    data
+  );
+}
 
 
 }

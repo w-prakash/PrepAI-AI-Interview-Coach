@@ -42,6 +42,26 @@
     <p><strong>Correct Answer:</strong> {{ r.correctAnswer || r.improvedAnswer }}</p>
     <p><strong>Feedback:</strong> {{ r.feedback }}</p>
     <p><strong>Score:</strong> {{ r.score }}/10</p>
+<!-- 🔥 SHOW ONLY IF WRONG -->
+<ion-button 
+  *ngIf="r.score < 10"
+  size="small"
+  color="warning"
+  (click)="explainWrong(r, i)"
+  [disabled]="explainingIndex === i">
+
+  <!-- 🔥 SHOW SPINNER ONLY FOR THIS QUESTION -->
+  <ion-spinner 
+    *ngIf="explainingIndex === i" 
+    name="dots" 
+    style="margin-right: 8px;">
+  </ion-spinner>
+
+  <span *ngIf="explainingIndex !== i">🧠 Explain my mistake</span>
+  <span *ngIf="explainingIndex === i">Thinking…</span>
+
+</ion-button>
+
 
   </ion-card-content>
 </ion-card>

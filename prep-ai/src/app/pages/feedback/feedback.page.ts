@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { AiService } from '../../services/ai';
 import { RouterModule } from '@angular/router';
+import { ExplainModalComponent } from 'src/app/components/explain-modal/explain-modal.component';
 
 @Component({
   selector: 'app-feedback',
@@ -12,6 +13,7 @@ import { RouterModule } from '@angular/router';
   imports: [IonicModule, CommonModule, RouterModule],
 })
 export class FeedbackPage implements OnInit {
+explainingIndex: number | null = null;
 
   results: any[] = [];
   loading = true;
@@ -19,7 +21,8 @@ export class FeedbackPage implements OnInit {
   averageScore = 0;
 bestIndex = -1;
 weakestIndex = -1;
-  constructor(private ai: AiService) {}
+  constructor(private ai: AiService,   private modalCtrl: ModalController
+) {}
 
   ngOnInit() {
    
@@ -137,4 +140,44 @@ if (this.results.length > 1) {
 localStorage.removeItem('currentQuestionIndex');
 
   }
+
+  async showExplainModal(text: string) {
+
+  const modal = await this.modalCtrl.create({
+    component: ExplainModalComponent,
+    componentProps: {
+      explanation: text
+    }
+  });
+
+  await modal.present();
+}
+
+explainWrong(r: any, index: number) {
+
+  const role = localStorage.getItem('selectedRole') || 'frontend';
+
+  this.explainingIndex = index;   // 🔥 START LOADER ONLY FOR THIS QUESTION
+
+  this.ai.explainWrong({
+    question: r.question,
+    options: r.options || [],
+    correctAnswer: r.correctAnswer,
+    userAnswer: r.userAnswer,
+    role
+  }).subscribe({
+    next: (res: any) => {
+      this.explainingIndex = null;   // 🔥 STOP LOADER
+      this.showExplainModal(res.explanation);
+    },
+    error: () => {
+      this.explainingIndex = null;   // 🔥 STOP LOADER
+      alert('Failed to explain this answer');
+    }
+  });
+}
+
+
+
+
 }
