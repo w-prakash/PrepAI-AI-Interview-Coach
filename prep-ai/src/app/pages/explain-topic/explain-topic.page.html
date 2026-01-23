@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Explain Topic</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>🧠 {{ topic }}</h2>
+
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <ion-card *ngIf="!loading">
+    <ion-card-content style="white-space: pre-line; line-height: 1.6;">
+      {{ explanation }}
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

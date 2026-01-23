@@ -4,6 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Chart, registerables } from 'chart.js';
 import { AiService } from 'src/app/services/ai';
+import { ActionSheetController } from '@ionic/angular';
+
 Chart.register(...registerables);
 
 @Component({
@@ -27,7 +29,7 @@ recentSessions: any[] = [];
   topicScores: number[] = [];
 canResume = false;
 
-  constructor(private router: Router, private ai: AiService,) {}
+  constructor(private router: Router, private ai: AiService,  private actionSheetCtrl: ActionSheetController) {}
 
 
   ngOnInit() {
@@ -256,5 +258,38 @@ checkServerStatus() {
     }
   });
 }
+
+async openWeakTopicActions(topic: string) {
+
+  const actionSheet = await this.actionSheetCtrl.create({
+    header: `Topic: ${topic}`,
+    buttons: [
+      {
+        text: '🎯 Practice this topic',
+        handler: () => {
+          this.practiceWeakTopic(topic);   // 🔥 YOUR EXISTING FUNCTION
+        }
+      },
+      {
+        text: '🧠 Explain this topic',
+        handler: () => {
+          this.openExplain(topic);          // 🔥 NEW FEATURE
+        }
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      }
+    ]
+  });
+
+  await actionSheet.present();
+}
+
+openExplain(topic: string) {
+  this.router.navigate(['/tabs/explain', encodeURIComponent(topic)]);
+}
+
+
 
 }

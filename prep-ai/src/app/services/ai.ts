@@ -34,6 +34,12 @@ checkServer() {
     'https://prep-ai-backend-xsoj.onrender.com/health'
   );
 }
+explainTopic(topic: string, role: string) {
+  return this.http.post(
+    'https://prep-ai-backend-xsoj.onrender.com/ai/explain',
+    { topic, role }
+  );
+}
 
 
 }

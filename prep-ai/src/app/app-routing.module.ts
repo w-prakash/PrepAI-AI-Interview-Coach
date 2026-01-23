@@ -29,7 +29,12 @@ pathMatch: 'full' },
      {
       path: 'feedback',
       loadComponent: () => import('./pages/feedback/feedback.page').then(m => m.FeedbackPage)
-    }
+    },
+    {
+  path: 'explain/:topic',
+  loadComponent: () => import('./pages/explain-topic/explain-topic.page')
+    .then(m => m.ExplainTopicPage)
+}
   ]
 },
 {
@@ -42,6 +47,7 @@ loadComponent: () => import('./pages/history-detail/history-detail.page').then(m
     import('./pages/question-detail/question-detail.page')
       .then(m => m.QuestionDetailPage)
 }
+
 
 
 

@@ -76,7 +76,7 @@
     <ion-chip 
       *ngFor="let t of weakTopics"
       [color]="getWeakColor(t.avg)"
-      (click)="practiceWeakTopic(t.topic)"
+      (click)="openWeakTopicActions(t.topic)"
       style="cursor: pointer; margin: 4px;">
 
       {{ t.topic }} ({{ t.avg }}/10)
