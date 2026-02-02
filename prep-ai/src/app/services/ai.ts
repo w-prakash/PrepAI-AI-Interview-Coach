@@ -1,28 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as env from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
-  private apiUrl = 'https://prep-ai-backend-2xpj.onrender.com/ai/evaluate';
+  // private apiUrl = 'https://prep-ai-backend-2xpj.onrender.com/ai/evaluate';
+  private apiUrl = env.environment.production ? env.environment.baseUrl : env.environment.localUrl;
+
 
   constructor(private http: HttpClient) {}
 
   evaluate(role: string, question: string, userAnswer: string) {
-    return this.http.post<any>(this.apiUrl, {
+    return this.http.post<any>(`${this.apiUrl}ai/evaluatex`, {
       role,
       question,
       userAnswer
     });
   }
   getQuestion(role: string, difficulty: string,  topic?: any) {
-  return this.http.post<any>('https://prep-ai-backend-2xpj.onrender.com/ai/question', {
+  return this.http.post<any>(`${this.apiUrl}ai/question`, {
     role,
     difficulty,
     topic
   });
 }
 getMcqQuestion(role: string, difficulty: string,  topic?: any) {
-  return this.http.post<any>('https://prep-ai-backend-2xpj.onrender.com/ai/mcq-question', {
+  return this.http.post<any>(`${this.apiUrl}ai/mcq-question`, {
     role,
     difficulty,
     topic
@@ -31,19 +34,19 @@ getMcqQuestion(role: string, difficulty: string,  topic?: any) {
 
 checkServer() {
   return this.http.get(
-    'https://prep-ai-backend-2xpj.onrender.com/health'
+    `${this.apiUrl}health`
   );
 }
 explainTopic(topic: string, role: string) {
   return this.http.post(
-    'https://prep-ai-backend-2xpj.onrender.com/ai/explain',
+    `${this.apiUrl}ai/explain`,
     { topic, role }
   );
 }
 
 quizFromTopic(topic: string, role: string) {
   return this.http.post(
-    'https://prep-ai-backend-2xpj.onrender.com/ai/quiz-topic',
+    `${this.apiUrl}ai/quiz-topic`,
     { topic, role }
   );
 }
@@ -55,7 +58,7 @@ explainWrong(data: {
   role: string;
 }) {
   return this.http.post(
-    'https://prep-ai-backend-2xpj.onrender.com/ai/explain-wrong',
+    `${this.apiUrl}ai/explain-wrong`,
     data
   );
 }
@@ -66,20 +69,20 @@ followUp(data: {
   role: string;
 }) {
   return this.http.post(
-    'https://prep-ai-backend-2xpj.onrender.com/ai/followup',
+    `${this.apiUrl}ai/followup`,
     data
   );
 }
 startMockInterview(role: string, difficulty: string, count: number) {
   return this.http.post(
-    'https://prep-ai-backend-2xpj.onrender.com/ai/mock-interview/start',
+    `${this.apiUrl}ai/mock-interview/start`,
     { role, difficulty, count }
   );
 }
 
 evaluateMockInterview(role: string, answers: any[]) {
   return this.http.post(
-    'https://prep-ai-backend-2xpj.onrender.com/ai/mock-interview/evaluate',
+    `${this.apiUrl}ai/mock-interview/evaluate`,
     { role, answers }
   );
 }

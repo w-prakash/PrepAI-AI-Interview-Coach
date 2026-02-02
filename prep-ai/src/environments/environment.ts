@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  localUrl: 'http://localhost:3000/',
+  baseUrl:  'https://prep-ai-backend-2xpj.onrender.com/',
+  server: 'https://prep-ai-backend-2xpj.onrender.com/'
 };
 
 /*

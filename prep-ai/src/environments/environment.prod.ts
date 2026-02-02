@@ -1,3 +1,6 @@
+import * as env from '../environments/environment';
 export const environment = {
-  production: true
+  production: env.environment.production,
+  localUrl: env.environment.localUrl,
+  baseUrl: env.environment.baseUrl,
 };

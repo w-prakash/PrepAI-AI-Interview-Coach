@@ -1,2 +1,8 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+ion-content::part(background) {
+  background: transparent;
+}
+ion-content {
+  --background: transparent;
+}
