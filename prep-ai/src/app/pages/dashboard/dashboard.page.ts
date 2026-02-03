@@ -100,12 +100,11 @@ ionViewDidEnter() {
 
 
 loadChart() {
-
   if (!this.chartRef) return;
 
   const ctx = this.chartRef.nativeElement.getContext('2d');
 
-  // 🔥 Destroy old chart if exists (important when coming back to dashboard)
+  // Destroy old chart when reloading
   if (this.chart) {
     this.chart.destroy();
   }
@@ -114,24 +113,51 @@ loadChart() {
     type: 'bar',
     data: {
       labels: this.topicLabels,
- datasets: [
-  {
-    label: 'Average Score per Topic',
-    data: this.topicScores,
-    backgroundColor: this.getBarColors(this.topicScores),
-    borderRadius: 6,
-    borderSkipped: false
-  }
-]
-
+      datasets: [
+        {
+          label: 'Average Score per Topic',
+          data: this.topicScores,
+          backgroundColor: this.getBarColors(this.topicScores),
+          borderRadius: 14,
+          borderSkipped: false,
+          barThickness: 28
+        }
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+
+      plugins: {
+        legend: {
+          labels: {
+            color: '#374151',
+            font: {
+              weight: 500
+            }
+          }
+        }
+      },
+
       scales: {
         y: {
           beginAtZero: true,
-          max: 10
+          max: 10,
+          ticks: {
+            color: '#6b7280',
+            stepSize: 2
+          },
+          grid: {
+            color: 'rgba(0,0,0,0.08)'
+          }
+        },
+        x: {
+          ticks: {
+            color: '#374151'
+          },
+          grid: {
+            display: false
+          }
         }
       }
     }
@@ -214,37 +240,22 @@ loadWeakTopics() {
   this.weakTopics = topics.slice(0, 10);
 }
 
-getWeakColor(avg: number): string {
-
-  if (avg <= 4) {
-    return 'danger';   // 🔴 Very weak
-  }
-
-  if (avg <= 7) {
-    return 'warning';  // 🟠 Medium weak
-  }
-
-  return 'tertiary';   // 🟡 Slight weak
+getWeakColor(avg: number) {
+  if (avg <= 4) return 'danger';
+  if (avg <= 7) return 'warning';
+  if (avg < 9) return 'success';
+  return 'primary';
 }
 
-getBarColors(scores: number[]): string[] {
+getBarColors(scores: number[]) {
   return scores.map(score => {
-
-    if (score <= 4) {
-      return '#ef4444';   // 🔴 Red - very weak
-    }
-
-    if (score <= 7) {
-      return '#f59e0b';   // 🟠 Orange - medium
-    }
-
-    if (score <= 9) {
-      return '#eab308';   // 🟡 Yellow - improving
-    }
-
-    return '#22c55e';     // 🟢 Green - strong
+    if (score <= 4) return '#ef4444';   // red
+    if (score <= 6) return '#f59e0b';   // yellow
+    if (score <= 7) return '#22c55e';   // green
+    return '#3b82f6';                   // blue
   });
 }
+
 
 checkServerStatus() {
   this.serverConnected = null; // loading state

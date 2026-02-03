@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar>
 
-    <!-- Back Button -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/dashboard"></ion-back-button>
     </ion-buttons>
@@ -11,76 +10,113 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-<h3 class="ion-margin-top">Select Difficulty</h3>
+<ion-content class="practice-bg">
+  <div class="practice-card animate-in">
 
-<ion-radio-group [(ngModel)]="difficulty">
+    <h3>
+      <ion-icon name="speedometer-outline"></ion-icon>
+      Select Difficulty
+    </h3>
 
-  <ion-item>
-    <ion-label>Easy</ion-label>
-    <ion-radio slot="start" value="easy"></ion-radio>
-  </ion-item>
+    <ion-radio-group [(ngModel)]="difficulty">
 
-  <ion-item>
-    <ion-label>Medium</ion-label>
-    <ion-radio slot="start" value="medium"></ion-radio>
-  </ion-item>
+      <ion-item [class.selected]="difficulty === 'easy'">
+        <ion-radio slot="start" value="easy"></ion-radio>
+        <ion-label>Easy</ion-label>
+      </ion-item>
 
-  <ion-item>
-    <ion-label>Hard</ion-label>
-    <ion-radio slot="start" value="hard"></ion-radio>
-  </ion-item>
+      <ion-item [class.selected]="difficulty === 'medium'">
+        <ion-radio slot="start" value="medium"></ion-radio>
+        <ion-label>Medium</ion-label>
+      </ion-item>
 
-</ion-radio-group>
-<h3 class="ion-margin-top">Practice Mode</h3>
+      <ion-item [class.selected]="difficulty === 'hard'">
+        <ion-radio slot="start" value="hard"></ion-radio>
+        <ion-label>Hard</ion-label>
+      </ion-item>
 
-<ion-radio-group [(ngModel)]="mode">
+    </ion-radio-group>
 
-  <ion-item>
-    <ion-label>Answer the Question</ion-label>
-    <ion-radio slot="start" value="text"></ion-radio>
-  </ion-item>
+    <h3>
+      <ion-icon name="options-outline"></ion-icon>
+      Practice Mode
+    </h3>
 
-  <ion-item>
-    <ion-label>Choose the Correct Answer (MCQ)</ion-label>
-    <ion-radio slot="start" value="mcq"></ion-radio>
-  </ion-item>
+    <ion-radio-group [(ngModel)]="mode">
 
-</ion-radio-group>
+      <ion-item [class.selected]="mode === 'text'">
+        <ion-radio slot="start" value="text"></ion-radio>
+        <ion-label>Answer the Question</ion-label>
+      </ion-item>
 
+      <ion-item [class.selected]="mode === 'mcq'">
+        <ion-radio slot="start" value="mcq"></ion-radio>
+        <ion-label>Choose the Correct Answer (MCQ)</ion-label>
+      </ion-item>
 
-<h3>Select Role / Technology</h3>
+    </ion-radio-group>
 
-<ion-item button (click)="openRoleModal()">
+    <h3>
+      <ion-icon name="code-slash-outline"></ion-icon>
+      Select Role / Technology
+    </h3>
 
-  <ion-label>
-    <span *ngIf="!selectedRole">Choose a role</span>
+    <ion-item button class="role-item" (click)="openRoleModal()">
+      <ion-label>
+        <span *ngIf="!selectedRole">Choose a role</span>
+        <span *ngIf="selectedRole" class="role-selected">
+          ✅ {{ selectedRole | titlecase }}
+        </span>
+      </ion-label>
+    </ion-item>
 
-    <span *ngIf="selectedRole" style="color: white; font-weight: 600;">
-      ✅ {{ selectedRole | titlecase }}
+    <ion-item *ngIf="selectedRole === 'custom'">
+      <ion-label position="stacked">Enter Custom Role</ion-label>
+      <ion-input
+        [(ngModel)]="customRole"
+        placeholder="e.g. DevOps, AWS, Kubernetes">
+      </ion-input>
+    </ion-item>
+
+    <!-- <ion-button
+      expand="block"
+      color="success"
+      class="start-practice-btn"
+      (click)="startPractice()"
+      [disabled]="!selectedRole && !customRole">
+
+      🚀 START PRACTICE
+    </ion-button> -->
+<div
+  class="swipe-container"
+  [class.disabled]="!canStart">
+
+  <div class="swipe-track" #track>
+
+    <!-- Progress Fill -->
+    <div class="swipe-fill" #fill></div>
+
+    <span class="swipe-text">
+      {{ canStart ? 'Swipe to Start' : 'Select options to continue' }}
     </span>
-  </ion-label>
 
-</ion-item>
+    <!-- Thumb -->
+    <div
+      class="swipe-thumb"
+      #thumb
+      (pointerdown)="canStart && onSwipeStart($event)"
+      (pointermove)="onSwipeMove($event)"
+      (pointerup)="onSwipeEnd()"
+      (pointercancel)="onSwipeEnd()"
+      (click)="canStart && onTapFallback()">
 
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
 
-<!-- CUSTOM ROLE INPUT -->
-<ion-item *ngIf="selectedRole === 'custom'">
-  <ion-label position="stacked">Enter Custom Role</ion-label>
-  <ion-input 
-    [(ngModel)]="customRole" 
-    placeholder="e.g. DevOps, AWS, Kubernetes">
-  </ion-input>
-</ion-item>
-<ion-button
-  expand="block"
-  color="success"
-  class="ion-margin-top"
-  (click)="startPractice()"
-  [disabled]="!selectedRole && !customRole">
-
-  🚀 Start Practice
-</ion-button>
+  </div>
+</div>
 
 
+
+  </div>
 </ion-content>

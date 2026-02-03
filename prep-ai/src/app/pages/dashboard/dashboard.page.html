@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Dashboard</ion-title>
         <!-- Home Button -->
     <!-- <ion-buttons slot="end">
@@ -23,7 +23,7 @@
 <p>Start or continue your interview session.</p>
 
 
-<ion-button expand="block" size="large" color="success" (click)="startPractice()">
+<ion-button expand="block" size="large" class="start-practice" (click)="startPractice()">
 🚀 Start Practice
 </ion-button>
 
@@ -66,21 +66,21 @@
     </ion-row>
   </ion-grid>
 <!-- WEAK TOPICS LIST -->
- <ion-card>
+ <ion-card class="mock-interview">
   <ion-card-header>
-    <ion-card-title>🎤 Mock Interview</ion-card-title>
+    <ion-card-title color="light">🎤 Mock Interview</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
     <p>Simulate a real interview with AI and get full feedback.</p>
 
-    <ion-button expand="block" color="primary" (click)="startMockInterview()">
+    <ion-button expand="block" (click)="startMockInterview()">
       Start Mock Interview
     </ion-button>
   </ion-card-content>
 </ion-card>
 <!-- WEAK TOPICS LIST -->
-<ion-card *ngIf="weakTopics.length">
+<ion-card *ngIf="weakTopics.length" class="focus-card">
   <ion-card-header>
     <ion-card-title>Focus Areas</ion-card-title>
   </ion-card-header>
@@ -98,28 +98,37 @@
 </ion-card>
 
  <!-- BAR CHART -->
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-header>
       <ion-card-title>Performance by Topic</ion-card-title>
     </ion-card-header>
     <ion-card-content>
 <canvas #topicChart style="height: 300px;"></canvas>
     </ion-card-content>
-  </ion-card>
-  <ion-card *ngIf="recentSessions.length">
-<ion-card-header>
-<ion-card-title>Recent Sessions</ion-card-title>
-</ion-card-header>
+  </ion-card> -->
+  <ion-card class="performance-card">
+  <ion-card-header>
+    <ion-card-title>Performance by Topic</ion-card-title>
+  </ion-card-header>
 
+  <ion-card-content>
+    <canvas #topicChart style="height: 300px;"></canvas>
+  </ion-card-content>
+</ion-card>
 
-<ion-card-content>
-<ion-item *ngFor="let s of recentSessions">
-<ion-label>
-<h3>{{ s.date | date:'short' }}</h3>
-<p>Avg Score: {{ s.averageScore }}/10</p>
-</ion-label>
-</ion-item>
-</ion-card-content>
+<ion-card class="recent-card" *ngIf="recentSessions.length">
+  <ion-card-header>
+    <ion-card-title>Recent Sessions</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-item *ngFor="let s of recentSessions" lines="none" class="recent-item">
+      <ion-label>
+        <h3>{{ s.date | date:'short' }}</h3>
+        <p>Avg Score: {{ s.averageScore }}/10</p>
+      </ion-label>
+    </ion-item>
+  </ion-card-content>
 </ion-card>
 
 <ion-card>

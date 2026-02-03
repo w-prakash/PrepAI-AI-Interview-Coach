@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -9,12 +9,20 @@ import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-role-select',
   templateUrl: './role-select.page.html',
+  styleUrls: ['./role-select.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class RoleSelectPage {
   difficulty: 'easy' | 'medium' | 'hard' = 'easy';
   mode: 'text' | 'mcq' = 'mcq';
+@ViewChild('thumb', { static: false }) thumb!: ElementRef;
+@ViewChild('track', { static: false }) track!: ElementRef;
+@ViewChild('fill', { static: false }) fill!: ElementRef;
+
+isDragging = false;
+startX = 0;
+maxTranslate = 0;
 roleGroups = [
   {
     group: 'Frontend',
@@ -129,5 +137,76 @@ async openRoleModal() {
 }
 
 
+
+get canStart() {
+  return !!(this.selectedRole || this.customRole) && !!this.difficulty && !!this.mode;
+}
+
+onSwipeStart(event: PointerEvent) {
+  this.isDragging = true;
+
+  const trackWidth = this.track.nativeElement.offsetWidth;
+  const thumbWidth = this.thumb.nativeElement.offsetWidth;
+
+  this.maxTranslate = trackWidth - thumbWidth - 8;
+  this.startX = event.clientX;
+
+  (event.target as HTMLElement).setPointerCapture(event.pointerId);
+}
+
+onSwipeMove(event: PointerEvent) {
+  if (!this.isDragging) return;
+
+  const deltaX = event.clientX - this.startX;
+  const translateX = Math.min(Math.max(deltaX, 0), this.maxTranslate);
+
+  this.thumb.nativeElement.style.transform =
+    `translateX(${translateX}px)`;
+
+  this.fill.nativeElement.style.width =
+    `${translateX + 46}px`;
+}
+
+onSwipeEnd() {
+  if (!this.isDragging) return;
+  this.isDragging = false;
+
+  const currentX =
+    parseFloat(
+      this.thumb.nativeElement.style.transform.replace(/[^\d.]/g, '')
+    ) || 0;
+
+  if (currentX >= this.maxTranslate * 0.85) {
+    this.triggerSuccess();
+    return;
+  }
+
+  this.resetSwipe();
+}
+
+onTapFallback() {
+  this.triggerSuccess();
+}
+
+triggerSuccess() {
+  // Haptic feedback (mobile only)
+  if ('vibrate' in navigator) {
+    navigator.vibrate(40);
+  }
+
+  this.fill.nativeElement.style.width = '100%';
+  this.thumb.nativeElement.classList.add('success');
+
+  setTimeout(() => {
+    this.startPractice();
+    this.resetSwipe();
+  }, 300);
+}
+
+resetSwipe() {
+  this.thumb.nativeElement.style.transform = 'translateX(0)';
+  this.fill.nativeElement.style.width = '0';
+  this.thumb.nativeElement.classList.remove('success');
+}
 
 }

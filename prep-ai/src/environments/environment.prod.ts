@@ -1,6 +1,7 @@
-import * as env from '../environments/environment';
+import { commonEnvironment } from './environment.common';
+
 export const environment = {
-  production: env.environment.production,
-  localUrl: env.environment.localUrl,
-  baseUrl: env.environment.baseUrl,
+  ...commonEnvironment,
+  production: 'PROD_ENV_FILE',
+  baseUrl: 'https://prep-ai-backend-2xpj.onrender.com/',
 };

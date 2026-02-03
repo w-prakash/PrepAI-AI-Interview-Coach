@@ -1,0 +1,216 @@
+
+
+
+
+ion-button[color="success"] {
+  --background: linear-gradient(135deg, #2ecc71, #1abc9c);
+  --color: #ffffff;
+  --border-radius: 16px;
+
+  box-shadow:
+    0 12px 26px rgba(46, 204, 113, 0.45);
+
+  font-weight: 600;
+  height: 52px;
+}
+.practice-card ion-item[button] {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  margin-top: 8px;
+  padding: 6px 10px;
+}
+.practice-card ion-item {
+  --background: transparent;
+  --inner-padding-end: 8px;
+  --padding-start: 0;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.practice-card ion-item:last-child {
+  border-bottom: none;
+}
+
+.practice-card ion-label {
+  font-size: 14.5px;
+  color: #1f2937;
+}
+.practice-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin-top: 22px;
+  margin-bottom: 10px;
+}
+
+.practice-bg {
+  --background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+ion-button[disabled] {
+  opacity: 0.5;
+  box-shadow: none;
+}
+.start-practice-btn {
+  margin-top: 28px;
+  height: 54px;
+
+  --background: linear-gradient(135deg, #2ecc71, #1abc9c);
+  --color: #ffffff;
+  --border-radius: 18px;
+
+  font-weight: 600;
+  box-shadow: 0 14px 28px rgba(46, 204, 113, 0.45);
+}
+.role-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  margin-top: 8px;
+}
+
+.role-selected {
+  font-weight: 600;
+  color: #10b981;
+}
+.practice-card ion-item.selected {
+  background: rgba(59, 130, 246, 0.08);
+  border-radius: 12px;
+}
+.practice-card ion-item {
+  --background: transparent;
+  --padding-start: 0;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.practice-card ion-label {
+  font-size: 14.5px;
+  color: #1f2937;
+}
+.practice-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 22px 0 10px;
+}
+
+.practice-card h3 ion-icon {
+  font-size: 18px;
+  color: #3b82f6;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeUp 0.75s ease-out;
+}
+.practice-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 22px 18px;
+  margin-top: 2.5rem;
+    margin: 1rem;
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.45);
+}
+.practice-bg {
+  --background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+/* Container */
+.swipe-container {
+  margin-top: 32px;
+}
+
+.swipe-container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Track */
+.swipe-track {
+  position: relative;
+  height: 54px;
+  border-radius: 999px;
+  overflow: hidden;
+
+  background: rgba(46, 204, 113, 0.15);
+  border: 1px solid rgba(46, 204, 113, 0.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fill */
+.swipe-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+
+  background: linear-gradient(135deg, #2ecc71, #1abc9c);
+  transition: width 0.15s ease;
+}
+
+/* Text */
+.swipe-text {
+  position: relative;
+  z-index: 2;
+  color: #065f46;
+  font-weight: 600;
+  font-size: 15px;
+  pointer-events: none;
+}
+
+/* Thumb */
+.swipe-thumb {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #2ecc71, #1abc9c);
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.45);
+  cursor: grab;
+
+  touch-action: none;
+  user-select: none;
+
+  transition: transform 0.2s ease;
+}
+
+/* Success animation */
+.swipe-thumb.success {
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.swipe-thumb ion-icon {
+  font-size: 22px;
+}

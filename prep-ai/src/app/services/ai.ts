@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as env from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AiService {
   // private apiUrl = 'https://prep-ai-backend-2xpj.onrender.com/ai/evaluate';
-  private apiUrl = env.environment.production ? env.environment.baseUrl : env.environment.localUrl;
+  private apiUrl = environment.baseUrl;
 
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+    console.log('production:', environment.production);
+console.log('baseUrl:', environment.baseUrl);
+
+  }
 
   evaluate(role: string, question: string, userAnswer: string) {
     return this.http.post<any>(`${this.apiUrl}ai/evaluatex`, {
