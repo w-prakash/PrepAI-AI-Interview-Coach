@@ -248,3 +248,14 @@ ion-item {
     /* border: 1px solid rgba(255, 255, 255, 0.18); */
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
+.custom-role.highlight {
+  margin: 12px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--ion-color-primary);
+}
+
+.custom-role ion-label p {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  margin-top: 4px;
+}

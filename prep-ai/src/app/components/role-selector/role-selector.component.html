@@ -13,6 +13,29 @@
       placeholder="Search role (Angular, Node, Python...)">
     </ion-searchbar>
   <!-- </ion-toolbar> -->
+     <!-- CUSTOM OPTION -->
+<ion-item
+  button
+  detail
+  lines="none"
+  color="light"
+  (click)="selectRole('custom')"
+  class="custom-role highlight">
+
+  <ion-icon
+    name="create-outline"
+    slot="start"
+    color="primary">
+  </ion-icon>
+
+  <ion-label>
+    <strong>Can’t find your role?</strong>
+    <p>Type your own</p>
+  </ion-label>
+
+</ion-item>
+
+
 </ion-header>
 
 <ion-content>
@@ -35,9 +58,6 @@
 
   </ion-list>
 
-  <!-- CUSTOM OPTION -->
-  <ion-item  (click)="selectRole('custom')" class="custome-role">
-    ➕ Other (Type your own…)
-  </ion-item>
+
 
 </ion-content>
