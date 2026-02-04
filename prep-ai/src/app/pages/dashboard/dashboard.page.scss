@@ -320,3 +320,84 @@ ion-chip[color="danger"] {
   font-size: 13px;
   color: #6b7280;
 }
+/* Card overall */
+.focus-card {
+  border-radius: 16px;
+  overflow: hidden; /* important for sticky */
+}
+
+/* Sticky header */
+.focus-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    /* width: 100%; */
+    /* background: linear-gradient(135deg, rgba(110, 134, 215, 0.35), rgba(59, 74, 122, 0.25)); */
+    // backdrop-filter: blur(14px);
+    // -webkit-backdrop-filter: blur(14px);
+    /* border-radius: 18px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.18); */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    // margin-bottom: 20px;
+    // /* border-bottom: 1px solid #e5e7eb;
+}
+
+/* Card content */
+.focus-content {
+  padding: 0; /* remove default padding */
+}
+
+/* Scrollable area */
+.focus-scroll {
+  max-height: 220px;   /* adjust as you like */
+  overflow-y: auto;
+  padding: 12px;
+}
+
+/* Optional: nicer scrollbar (Chrome / Edge) */
+.focus-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.focus-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+.focus-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.performance-card {
+  border-radius: 16px;
+}
+
+/* Remove default padding so scroll feels natural */
+.chart-content {
+  padding: 0 0 12px;
+}
+
+/* Horizontal scroll container */
+.chart-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding: 12px;
+}
+
+/* Optional: smooth scrolling */
+.chart-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optional scrollbar styling */
+.chart-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.chart-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+.chart-scroll canvas {
+  height: 220px; /* was ~300 */
+}

@@ -102,9 +102,17 @@ ionViewDidEnter() {
 loadChart() {
   if (!this.chartRef) return;
 
-  const ctx = this.chartRef.nativeElement.getContext('2d');
+  const canvas = this.chartRef.nativeElement;
+  const ctx = canvas.getContext('2d');
 
-  // Destroy old chart when reloading
+  const barWidth = 40;
+  const minWidth = 300;
+
+  canvas.width = Math.max(
+    this.topicLabels.length * barWidth,
+    minWidth
+  );
+
   if (this.chart) {
     this.chart.destroy();
   }
@@ -120,24 +128,35 @@ loadChart() {
           backgroundColor: this.getBarColors(this.topicScores),
           borderRadius: 14,
           borderSkipped: false,
-          barThickness: 28
+          barThickness: 10,
+          categoryPercentage: 0.6,
+          barPercentage: 0.85
         }
       ]
     },
     options: {
-      responsive: true,
+      responsive: false,              // IMPORTANT
       maintainAspectRatio: false,
-
-      plugins: {
-        legend: {
-          labels: {
-            color: '#374151',
-            font: {
-              weight: 500
-            }
-          }
-        }
+  layout: {
+    padding: {
+      top: 16,
+      bottom: 32,
+      left: 8,
+      right: 8
+    }
+  },
+plugins: {
+  legend: {
+    labels: {
+      color: '#374151',
+      font: {
+        size: 12,
+        weight: 500
       },
+      boxWidth: 12
+    }
+  }
+},
 
       scales: {
         y: {
@@ -145,24 +164,33 @@ loadChart() {
           max: 10,
           ticks: {
             color: '#6b7280',
-            stepSize: 2
+            stepSize: 1
           },
           grid: {
             color: 'rgba(0,0,0,0.08)'
           }
         },
-        x: {
-          ticks: {
-            color: '#374151'
-          },
-          grid: {
-            display: false
-          }
-        }
+ x: {
+  ticks: {
+    color: '#374151',
+    autoSkip: false,
+    maxRotation: 45,
+    minRotation: 45,
+    font: {
+      size: 11
+    },
+    padding: 8
+  },
+  grid: {
+    display: false
+  }
+}
+
       }
     }
   });
 }
+
 
 startPractice() {
   // 🔥 CLEAR ALL OLD SESSION DATA

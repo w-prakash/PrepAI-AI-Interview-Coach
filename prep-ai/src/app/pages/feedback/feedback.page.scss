@@ -1,5 +1,278 @@
-ion-badge {
-  margin-right: 6px;
-  margin-bottom: 8px;
-  display: inline-block;
+.result-bg {
+  --background: linear-gradient(180deg, #465159, #ffffff);
+  padding: 16px;
+}
+
+.result-wrapper {
+  max-width: 720px;
+  margin: auto;
+}
+
+/* SUMMARY */
+.summary-sheet {
+    background: linear-gradient(358deg, #495860, rgb(38 45 49));
+        border-radius: 0px 0px 90px 90px;
+
+  padding: 24px;
+  text-align: center;
+  color: white;
+  margin-bottom: 28px;
+    box-shadow: 0 20px 45px rgb(0 0 0 / 51%);
+}
+
+.score-main {
+  font-size: 52px;
+  font-weight: 700;
+}
+
+.score-main span {
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+.score-sub {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* RESULT SHEET */
+.result-sheet {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 20px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* subtle status accent */
+.result-sheet.wrong {
+  border-left: 4px solid #ef4444;
+}
+
+.result-sheet.correct {
+  border-left: 4px solid #22c55e;
+}
+
+/* HEADER */
+.sheet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.question {
+  font-size: 15px;
+  font-weight: 600;
+  color: #020617;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.tag.topic {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.tag.best {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.tag.weak {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* STATUS */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.status-badge.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status .score {
+  margin-left: auto;
+  font-size: 13px;
+  color: #475569;
+}
+
+/* ANSWERS */
+.answers {
+  display: grid;
+  gap: 12px;
+}
+
+.answer label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.answer p {
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.answer.your p {
+  color: #b91c1c;
+}
+
+.answer.correct p {
+  color: #065f46;
+}
+
+/* FEEDBACK */
+.feedback {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #334155;
+}
+
+/* ACTION */
+.explain-btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 14px;
+  background: #f1f5f9;
+  border: none;
+  font-weight: 600;
+  color: #4338ca;
+}
+
+/* DASHBOARD */
+.dashboard-btn {
+    // margin-top: 30px;
+    height: 60px;
+    --border-radius: 16px;
+    --background: linear-gradient(95deg, #272c4a, rgb(65 72 103 / 91%));
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+.sheet-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.result-sheet.expanded .sheet-body {
+  max-height: 1000px;
+  opacity: 1;
+}
+.result-sheet {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.result-sheet:active {
+  transform: scale(0.985);
+}
+
+.result-sheet.expanded {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+.result-sheet.wrong {
+  animation: softPulse 0.6s ease;
+}
+
+@keyframes softPulse {
+  0% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+  50% { box-shadow: 0 0 18px rgba(239, 68, 68, 0.35); }
+  100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+}
+.explain-btn {
+  transition: all 0.25s ease;
+}
+
+.explain-btn:disabled {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+}
+.sheet-header {
+  position: relative;
+  padding-right: 26px;
+}
+
+.chevron {
+  position: absolute;
+  right: 0;
+  top: 4px;
+
+  font-size: 18px;
+  color: #6b7280;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  opacity: 0.7;
+}
+
+.result-sheet.expanded .chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+.result-sheet {
+  cursor: pointer;
+}
+
+.result-sheet:active {
+  background: rgba(255, 255, 255, 0.96);
+}
+.sheet-preview {
+  font-size: 12px;
+  color: #6366f1;
+  margin-top: 6px;
+  opacity: 0.9;
+}
+
+.result-sheet.expanded .sheet-preview {
+  display: none;
+}
+
+ion-footer {
+      --background: transparent;
+    box-shadow: none;
+
+}
+.trophy {
+  font-size: 48px;
+  text-align: center;
+  margin-top: 12px;
+  opacity: 0;
+  transform: scale(0.4) translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.trophy.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }

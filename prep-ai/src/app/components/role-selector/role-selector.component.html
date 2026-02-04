@@ -2,30 +2,31 @@
   <ion-toolbar>
     <ion-title>Select Role</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">Close</ion-button>
+<ion-icon name="close-circle-outline" class="ion-padding-end" size="large" (click)="close()" color="light"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 
   <!-- 🔍 SEARCH BAR INSIDE HEADER -->
-  <ion-toolbar>
+  <!-- <ion-toolbar> -->
     <ion-searchbar 
       [(ngModel)]="searchText" 
       placeholder="Search role (Angular, Node, Python...)">
     </ion-searchbar>
-  </ion-toolbar>
+  <!-- </ion-toolbar> -->
 </ion-header>
 
 <ion-content>
 
-  <ion-list *ngFor="let g of roleGroups">
+  <ion-list *ngFor="let g of roleGroups" [ngClass]="g.group.toLowerCase()">
 
-    <ion-list-header>
+    <ion-list-header  *ngIf="getFilteredRoles(g).length > 0">
       {{ g.group }}
     </ion-list-header>
 
     <ion-item 
       button 
-      *ngFor="let r of getFilteredRoles(g)"
+      *ngFor="let r of getFilteredRoles(g)"   
+      [ngClass]="'role-' + r.toLowerCase().replace('.', '').replace(' ', '')"
       (click)="selectRole(r)">
 
       {{ r }}
@@ -35,7 +36,7 @@
   </ion-list>
 
   <!-- CUSTOM OPTION -->
-  <ion-item button color="medium" (click)="selectRole('custom')">
+  <ion-item  (click)="selectRole('custom')" class="custome-role">
     ➕ Other (Type your own…)
   </ion-item>
 

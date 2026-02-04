@@ -4,6 +4,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { AiService } from '../../services/ai';
 import { RouterModule } from '@angular/router';
 import { ExplainModalComponent } from 'src/app/components/explain-modal/explain-modal.component';
+import * as confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-feedback',
@@ -20,6 +21,9 @@ explainingIndex: number | null = null;
   totalScore = 0;
   averageScore = 0;
 bestIndex = -1;
+expandedIndex: number | null = null;
+  showTrophy = false;
+
 weakestIndex = -1;
   constructor(private ai: AiService,   private modalCtrl: ModalController
 ) {}
@@ -27,6 +31,32 @@ weakestIndex = -1;
   ngOnInit() {
    
   }
+ ngAfterViewInit() {
+  }
+
+
+
+toggleExpand(i: number) {
+  this.expandedIndex = this.expandedIndex === i ? null : i;
+}
+//   partySpray() {
+// (confetti as any).default({
+//   particleCount: 1000,
+//   angle: 300,
+//   spread: 1000,
+//   origin: { x: 0 }
+// });
+
+// (confetti as any).default({
+//   particleCount: 80,
+//   angle: 120,
+//   spread: 70,
+//   origin: { x: 1 }
+// });
+
+
+//   }
+
 
   ionViewWillEnter() {
     this.bestIndex = -1;
@@ -96,6 +126,65 @@ this.weakestIndex = -1;
       }
 
     });
+        this.runCelebration();
+
+  }
+
+    runCelebration() {
+      console.log('runCelebration');
+    // if (sessionStorage.getItem('celebrationDone')) return;
+
+    this.showTrophy = true;
+
+    this.playSoundIfAllowed();
+
+    this.multiFirework(this.averageScore);
+
+    // sessionStorage.setItem('celebrationDone', 'true');
+  }
+
+  /* 🎨 Score based colors */
+  getColors(score: number): string[] {
+    if (score >= 8) return ['#00e5ff', '#4caf50', '#ffffff'];
+    if (score >= 5) return ['#ffeb3b', '#ff9800', '#ffffff'];
+    return ['#f44336', '#e91e63', '#ffffff'];
+  }
+
+  /* 🎆 Multiple firework bursts */
+  multiFirework(score: number) {
+    const confettiFn = (confetti as any).default;
+    const colors = this.getColors(score);
+
+    const particleCount =
+      (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4
+        ? 70
+        : 120;
+
+    const burst = () => {
+      confettiFn({
+        particleCount,
+        spread: 360,
+        startVelocity: 45,
+        gravity: 0.9,
+        decay: 0.92,
+        scalar: 1.1,
+        colors,
+        origin: { x: Math.random(), y: 0.55 }
+      });
+    };
+
+    burst();
+    setTimeout(burst, 400);
+    setTimeout(burst, 800);
+  }
+
+  /* 🔊 Sound respecting silent mode */
+  playSoundIfAllowed() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const audio = new Audio('assets/sounds/celebrate.mp3');
+    audio.volume = 0.6;
+    audio.play().catch(() => {});
   }
 
   finish() {

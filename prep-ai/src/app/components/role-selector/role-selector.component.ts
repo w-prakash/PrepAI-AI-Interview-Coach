@@ -7,6 +7,7 @@ import { IonHeader } from "@ionic/angular/standalone";
 @Component({
   selector: 'app-role-selector',
   templateUrl: './role-selector.component.html',
+  styleUrls: ['./role-selector.component.scss'],
     standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
@@ -34,4 +35,15 @@ export class RoleSelectorComponent {
   close() {
     this.modalCtrl.dismiss(null);
   }
+
+  getRoleClass(role: string): string {
+  return (
+    'role-' +
+    role
+      .toLowerCase()
+      .replace(/\./g, '')   // remove dots
+      .replace(/\s+/g, '')  // remove spaces
+  );
+}
+
 }

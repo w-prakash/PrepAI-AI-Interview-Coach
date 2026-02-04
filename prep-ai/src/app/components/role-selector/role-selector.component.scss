@@ -26,3 +26,225 @@
     box-shadow: none;
   }
 }
+ion-searchbar {
+  --background: #ffffff;
+  --border-radius: 12px;
+  --box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  --placeholder-color: #354147;
+  // width: 95%;
+  // margin: 8px 12px 12px;
+}
+ion-list-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+
+  margin-top: 12px;
+}
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 48px;
+
+  font-size: 15px;
+  color: #111827;
+
+  border-bottom: 1px solid #f1f5f9;
+}
+ion-item:active {
+  background: #f0f9ff;
+}
+ion-item[color="medium"] {
+  margin: 16px;
+  border-radius: 12px;
+
+  --background: #f9fafb;
+  --color: #374151;
+
+  font-weight: 500;
+}
+ion-list-header {
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #2563eb;              /* blue highlight */
+  background: #eff6ff;         /* very light blue bg */
+
+  padding: 8px 16px;
+  margin-top: 14px;
+
+  border-radius: 6px;
+  letter-spacing: 0.4px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 48px;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;              /* dark text */
+
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+ion-item:active {
+  background: #ecfeff;         /* light cyan */
+}
+ion-item[color="medium"] {
+  margin: 16px;
+  border-radius: 12px;
+
+  --background: #f0fdf4;       /* light green */
+  --color: #166534;            /* dark green */
+
+  font-weight: 600;
+}
+ion-list {
+  margin-bottom: 8px;
+}
+/* Frontend section title */
+ion-list.frontend ion-list-header {
+  background: #eff6ff;
+  color: #2563eb;
+  border-left: 4px solid #2563eb;
+}
+
+/* Backend section title */
+ion-list.backend ion-list-header {
+  background: #f0fdf4;
+  color: #16a34a;
+  border-left: 4px solid #16a34a;
+}
+ion-list.mobile ion-list-header {
+  background: #fad7c1;
+  color: #c6540e;
+  border-left: 4px solid #c6540e;
+}
+
+/* Backend section title */
+ion-list.database ion-list-header {
+    background: #edcae5;
+    color: #a31682;
+    border-left: 4px solid #a31682;
+}
+/* Backend section title */
+ion-list.fullstack ion-list-header {
+  background: #f0fdf4;
+  color: #16a34a;
+  border-left: 4px solid #16a34a;
+}
+/* Common title styling */
+ion-list-header {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 8px 16px;
+  margin-top: 14px;
+  border-radius: 6px;
+}
+/* Frontend items */
+ion-list.frontend ion-item {
+  border-left: 3px solid #bfdbfe; /* light blue */
+}
+
+/* Backend items */
+ion-list.backend ion-item {
+  border-left: 3px solid #bbf7d0; /* light green */
+}
+ion-list.mobile ion-item {
+  border-left: 3px solid #fad7c1; /* light green */
+}
+ion-list.database ion-item {
+  border-left: 3px solid #edcae5; /* light green */
+}
+/* Common item styling */
+ion-item {
+  --padding-start: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  background: #ffffff;
+  margin-bottom: 2px;
+}
+ion-list.frontend ion-item:active {
+  background: #eff6ff;
+}
+
+ion-list.backend ion-item:active {
+  background: #f0fdf4;
+}
+ion-list.mobile ion-item:active {
+  background: #fad7c1;
+}
+/* Common role style */
+ion-item[class^="role-"] {
+  border-left: 4px solid transparent;
+}
+
+/* Frontend */
+.role-angular {
+  border-left-color: #dd0031;
+}
+
+.role-react {
+  border-left-color: #61dafb;
+}
+
+.role-vue {
+  border-left-color: #42b883;
+}
+
+.role-javascript {
+  border-left-color: #f7df1e;
+}
+
+.role-typescript {
+  border-left-color: #3178c6;
+}
+
+.role-html {
+  border-left-color: #e34f26;
+}
+
+.role-css {
+  border-left-color: #8b5cf6;
+}
+
+/* Backend */
+.role-nodejs {
+  border-left-color: #3c873a;
+}
+
+.role-express {
+  border-left-color: #6b7280;
+}
+
+.role-java {
+  border-left-color: #b07219;
+}
+
+.role-python {
+  border-left-color: #3776ab;
+}
+ion-item[class^="role-"]:active {
+  background: rgba(0, 0, 0, 0.03);
+}
+ion-item {
+      border-radius: 80px;
+}
+.custome-role {
+    animation: popGlow 0.6s ease-in-out;
+  // --background: rgba(193, 213, 13, 0.607);
+  // border-radius: 6px;
+       --background: linear-gradient(135deg, rgba(110, 134, 215, 0.35), rgba(59, 74, 122, 0.25)); 
+    // backdrop-filter: blur(14px);
+    // -webkit-backdrop-filter: blur(14px);
+    /* border-radius: 18px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.18); */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}

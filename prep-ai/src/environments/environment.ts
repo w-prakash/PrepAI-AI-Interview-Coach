@@ -6,7 +6,7 @@ import { commonEnvironment } from './environment.common';
 
 export const environment = {
   ...commonEnvironment,
-  production: 'DEV_ENV_FILE',
+  production: true,
   baseUrl: commonEnvironment.localUrl,
 };
 

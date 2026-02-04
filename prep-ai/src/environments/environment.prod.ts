@@ -2,6 +2,6 @@ import { commonEnvironment } from './environment.common';
 
 export const environment = {
   ...commonEnvironment,
-  production: 'PROD_ENV_FILE',
-  baseUrl: 'https://prep-ai-backend-2xpj.onrender.com/',
+  production: true,
+  baseUrl: 'https://prep-ai-backend-1.onrender.com/',
 };

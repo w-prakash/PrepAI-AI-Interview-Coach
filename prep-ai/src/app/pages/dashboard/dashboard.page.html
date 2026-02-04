@@ -81,19 +81,20 @@
 </ion-card>
 <!-- WEAK TOPICS LIST -->
 <ion-card *ngIf="weakTopics.length" class="focus-card">
-  <ion-card-header>
+  <ion-card-header class="focus-header">
     <ion-card-title>Focus Areas</ion-card-title>
   </ion-card-header>
 
-  <ion-card-content>
-    <ion-chip 
-      *ngFor="let t of weakTopics"
-      [color]="getWeakColor(t.avg)"
-      (click)="openWeakTopicActions(t.topic)"
-      style="cursor: pointer; margin: 4px;">
-
-      {{ t.topic }} ({{ t.avg }}/10)
-    </ion-chip>
+  <ion-card-content class="focus-content">
+    <div class="focus-scroll">
+      <ion-chip 
+        *ngFor="let t of weakTopics"
+        [color]="getWeakColor(t.avg)"
+        (click)="openWeakTopicActions(t.topic)"
+        style="cursor: pointer; margin: 4px;">
+        {{ t.topic }} ({{ t.avg }}/10)
+      </ion-chip>
+    </div>
   </ion-card-content>
 </ion-card>
 
@@ -106,15 +107,18 @@
 <canvas #topicChart style="height: 300px;"></canvas>
     </ion-card-content>
   </ion-card> -->
-  <ion-card class="performance-card">
+<ion-card class="performance-card">
   <ion-card-header>
     <ion-card-title>Performance by Topic</ion-card-title>
   </ion-card-header>
 
-  <ion-card-content>
-    <canvas #topicChart style="height: 300px;"></canvas>
+  <ion-card-content class="chart-content">
+    <div class="chart-scroll">
+      <canvas #topicChart></canvas>
+    </div>
   </ion-card-content>
 </ion-card>
+
 
 <ion-card class="recent-card" *ngIf="recentSessions.length">
   <ion-card-header>
