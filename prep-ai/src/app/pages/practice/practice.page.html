@@ -8,132 +8,168 @@
 </ion-header>
 
 <ion-content class="practice-session-bg">
+
+  <!-- SWIPE LAYER (DO NOT REMOVE) -->
   <div
     class="swipe-layer"
     (pointerdown)="onSwipeStart($event)"
     (pointermove)="onSwipeMove($event)"
     (pointerup)="onSwipeEnd()"
     (pointercancel)="onSwipeEnd()">
-  <div class="card-stack">
-    <div class="card-perspective">
 
-      <!-- Fake stacked cards (always visible) -->
-      <div class="question-card stack-card stack-2"></div>
-      <div class="question-card stack-card stack-1"></div>
+    <div class="card-stack">
+      <div class="card-perspective">
 
-      <!-- Active card (ALWAYS PRESENT) -->
+        <!-- BACK STACK CARDS -->
+<!-- <div class="question-card stack-card stack-6"></div>
+<div class="question-card stack-card stack-5"></div> -->
+<div class="question-card stack-card stack-4"></div>
+<div class="question-card stack-card stack-3"></div>
+<div class="question-card stack-card stack-2"></div>
+<div class="question-card stack-card stack-1"></div>
+
+
+        <!-- ACTIVE CARD -->
+        <div
+          #card
+          class="question-card active-card animate-in">
+
+          <!-- LOADER -->
+          <div *ngIf="loading" class="card-loader">
+            <ion-spinner></ion-spinner>
+            <p>Loading next question…</p>
+          </div>
+
+          <!-- CONTENT -->
+          <div *ngIf="!loading && currentQuestion">
+
+            <!-- STEP INDICATOR -->
+<div class="stepper-wrapper">
+
+  <!-- LEFT ARROW -->
+  <div class="scroll-arrow left" [class.visible]="showLeftArrow">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </div>
+
+  <!-- SCROLL AREA -->
+  <div
+    class="stepper-scroll"
+    #stepperScroll
+    (scroll)="onStepperScroll()">
+
+    <div class="stepper">
       <div
-        #card
-        class="question-card active-card animate-in">
-
-        <!-- 🔄 LOADING STATE (inside card) -->
-        <div *ngIf="loading" class="card-loader">
-          <ion-spinner></ion-spinner>
-          <p>Loading next question…</p>
-        </div>
-
-        <!-- ✅ QUESTION CONTENT -->
-        <div *ngIf="!loading && currentQuestion">
-
-          <!-- META -->
-          <div class="question-meta">
-            <span>Question {{ currentIndex + 1 }} of {{ questions.length }}</span>
-            <ion-badge color="primary" *ngIf="currentQuestion.topic">
-              {{ currentQuestion.topic }}
-            </ion-badge>
-          </div>
-
-          <!-- QUESTION -->
-          <h2 class="question-text">
-            {{ currentQuestion.question }}
-          </h2>
-
-          <!-- TEXT MODE -->
-          <div *ngIf="currentQuestion.mode === 'text'">
-            <ion-textarea
-              [(ngModel)]="currentQuestion.userAnswer"
-              placeholder="Type your answer..."
-              rows="6"
-              class="answer-textarea">
-            </ion-textarea>
-          </div>
-
-          <!-- MCQ MODE -->
-          <div *ngIf="currentQuestion.mode === 'mcq'">
-            <ion-radio-group [(ngModel)]="currentQuestion.userIndex">
-              <ion-item
-                *ngFor="let opt of currentQuestion.options; let i = index"
-                class="mcq-option"
-                [class.selected]="currentQuestion.userIndex === i">
-                <ion-radio slot="start" [value]="i"></ion-radio>
-                <ion-label>{{ opt }}</ion-label>
-              </ion-item>
-            </ion-radio-group>
-          </div>
-
-          <!-- NAVIGATION -->
-          <ion-grid class="nav-buttons">
-            <ion-row>
-              <ion-col>
-                <ion-button expand="block" fill="outline"
-                  (click)="prev()"
-                  [disabled]="currentIndex === 0">
-                  Previous
-                </ion-button>
-              </ion-col>
-
-              <ion-col>
-                <ion-button expand="block" fill="outline"
-                  (click)="next()"
-                  [disabled]="currentIndex === questions.length - 1">
-                  Next
-                </ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <!-- SECONDARY -->
-          <!-- <ion-button
-            *ngIf="!isTopicQuiz"
-            expand="block"
-            fill="clear"
-            (click)="addNewQuestion()">
-            + Add Another Question
-          </ion-button> -->
-
-          <!-- PRIMARY -->
-    <ion-button
-  expand="block"
-  class="submit-btn"
-  (click)="submitAll()"
-  [disabled]="questions.length === 0">
-  Submit All
-</ion-button>
-
-
-        </div>
-        <!-- Place this INSIDE .card-stack, AFTER the active card -->
-<div class="swipe-up-hint">
-  <div class="chevrons">
-    <span></span>
-    <span></span>
-  </div>
-  <div class="hint-text">Swipe up for next question</div>
-</div>
-
+        #stepEl
+        class="step-pill"
+        *ngFor="let q of questions; let i = index"
+        [class.active]="i === currentIndex"
+        (click)="goToQuestion(i)">
+        {{ i + 1 }}
       </div>
-
-
-
     </div>
-<!-- <div class="swipe-up-hint">
-  <div class="chevrons">
-    <span></span>
-    <span></span>
-  </div>
-  <div class="hint-text">Swipe up for next question</div>
-</div> -->
 
+  </div>
+
+  <!-- RIGHT ARROW -->
+  <div class="scroll-arrow right" [class.visible]="showRightArrow">
+    <ion-icon name="chevron-forward-outline"></ion-icon>
+  </div>
+
+</div>
+
+
+
+
+
+
+            <!-- META -->
+       <div class="question-meta">
+  <div class="topic-pill" *ngIf="currentQuestion.topic">
+    {{ currentQuestion.topic }}
   </div>
 </div>
+
+
+            <!-- QUESTION -->
+            <h2 class="question-text">
+              {{ currentQuestion.question }}
+            </h2>
+
+            <!-- TEXT ANSWER -->
+            <div *ngIf="currentQuestion.mode === 'text'">
+              <ion-textarea
+                [(ngModel)]="currentQuestion.userAnswer"
+                placeholder="Type your answer..."
+                rows="6"
+                class="answer-textarea">
+              </ion-textarea>
+            </div>
+
+            <!-- MCQ ANSWER -->
+      <div *ngIf="currentQuestion.mode === 'mcq'">
+  <ion-radio-group [(ngModel)]="currentQuestion.userIndex">
+    <ion-item
+      *ngFor="let opt of currentQuestion.options; let i = index"
+      class="mcq-option"
+      button
+      (click)="currentQuestion.userIndex = i"
+      [class.selected]="currentQuestion.userIndex === i"
+    >
+      <ion-radio slot="start" [value]="i"></ion-radio>
+      <ion-label>{{ opt }}</ion-label>
+    </ion-item>
+  </ion-radio-group>
+</div>
+
+
+            <!-- NAV BUTTONS -->
+            <!-- <ion-grid class="nav-buttons">
+              <ion-row>
+                <ion-col>
+                  <ion-button
+                    expand="block"
+                    fill="outline"
+                    (click)="prev()"
+                    [disabled]="currentIndex === 0">
+                    Previous
+                  </ion-button>
+                </ion-col>
+
+                <ion-col>
+                  <ion-button
+                    expand="block"
+                    fill="outline"
+                    (click)="next()"
+                    [disabled]="currentIndex === questions.length - 1">
+                    Next
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid> -->
+
+            <!-- SUBMIT -->
+            <ion-button
+              expand="block"
+              class="submit-btn"
+              (click)="submitAll()"
+              [disabled]="questions.length === 0">
+              Submit All
+            </ion-button>
+
+          </div>
+
+          <!-- SWIPE HINT -->
+          <div class="swipe-up-hint">
+            <div class="chevrons">
+              <span></span>
+              <span></span>
+            </div>
+            <div class="hint-text">Swipe up for next question</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 </ion-content>

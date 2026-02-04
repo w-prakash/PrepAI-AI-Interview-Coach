@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -17,6 +17,10 @@ export class PracticePage implements OnInit {
 selectedTopic: string | null = null;
 isTopicQuiz = false;
 @ViewChild('card', { static: false }) card!: ElementRef;
+@ViewChildren('stepEl') stepElements!: QueryList<ElementRef>;
+@ViewChild('stepperScroll') stepperScroll!: ElementRef;
+showLeftArrow = false;
+showRightArrow = false;
 prefetchedQuestion: any = null;
 showSwipeHint = true;
 
@@ -76,6 +80,11 @@ this.selectedTopic = localStorage.getItem('selectedTopic');
     this.currentIndex = 0;
     this.addNewQuestion();
   }
+
+  ngAfterViewInit() {
+  setTimeout(() => this.onStepperScroll());
+}
+
 
   // 🔥 Save active session (auto resume feature)
   saveSession() {
@@ -154,6 +163,7 @@ this.selectedTopic = localStorage.getItem('selectedTopic');
     this.questions.push(q);
     this.currentIndex = this.questions.length - 1;
     this.loading = false;
+    
   }
 
   // 2️⃣ Prefetch the next one in background
@@ -296,6 +306,7 @@ fetchQuestion(): Promise<any> {
     }
 
   });
+  
 }
 
 async initQuestions() {
@@ -318,6 +329,7 @@ onSwipeStart(event: PointerEvent) {
   this.isSwiping = true;
 
   (event.target as HTMLElement).setPointerCapture(event.pointerId);
+  
 }
 
 onSwipeMove(event: PointerEvent) {
@@ -417,6 +429,9 @@ onSwipeEnd() {
     setTimeout(() => {
       this.addNewQuestion();   // prefetched → instant
       this.prepareNextCard(); // reset for next card
+          setTimeout(() => {
+      this.scrollActiveStepIntoView();
+    });
     }, 280);
 
   } else {
@@ -453,5 +468,36 @@ resetCard() {
   }, 300);
 }
 
+goToQuestion(index: number) {
+  if (index === this.currentIndex || this.loading) {
+    return;
+  }
+
+  this.currentIndex = index;
+
+  setTimeout(() => {
+    this.scrollActiveStepIntoView();
+  });
+}
+
+scrollActiveStepIntoView() {
+  const steps = this.stepElements?.toArray();
+
+  if (!steps || !steps[this.currentIndex]) {
+    return;
+  }
+
+  steps[this.currentIndex].nativeElement.scrollIntoView({
+    behavior: 'smooth',
+    inline: 'center',
+    block: 'nearest'
+  });
+}
+onStepperScroll() {
+  const el = this.stepperScroll.nativeElement;
+
+  this.showLeftArrow = el.scrollLeft > 4;
+  this.showRightArrow = el.scrollLeft + el.clientWidth < el.scrollWidth - 4;
+}
 
 }
