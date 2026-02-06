@@ -18,38 +18,48 @@
       Select Difficulty
     </h3>
 
-    <ion-radio-group [(ngModel)]="difficulty">
+<ion-radio-group [(ngModel)]="difficulty">
+  <ion-grid class="mode">
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="4" class="ion-no-padding">
+        <ion-item lines="none">
+          <ion-radio slot="start" value="easy"></ion-radio>
+          <ion-label>Easy</ion-label>
+        </ion-item>
+      </ion-col>
 
-      <ion-item [class.selected]="difficulty === 'easy'">
-        <ion-radio slot="start" value="easy"></ion-radio>
-        <ion-label>Easy</ion-label>
-      </ion-item>
+      <ion-col size="4" class="ion-no-padding">
+        <ion-item lines="none">
+          <ion-radio slot="start" value="medium"></ion-radio>
+          <ion-label>Medium</ion-label>
+        </ion-item>
+      </ion-col>
 
-      <ion-item [class.selected]="difficulty === 'medium'">
-        <ion-radio slot="start" value="medium"></ion-radio>
-        <ion-label>Medium</ion-label>
-      </ion-item>
+      <ion-col size="3" class="ion-no-padding">
+        <ion-item lines="none">
+          <ion-radio slot="start" value="hard"></ion-radio>
+          <ion-label>Hard</ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-radio-group>
 
-      <ion-item [class.selected]="difficulty === 'hard'">
-        <ion-radio slot="start" value="hard"></ion-radio>
-        <ion-label>Hard</ion-label>
-      </ion-item>
-
-    </ion-radio-group>
 
     <h3>
       <ion-icon name="options-outline"></ion-icon>
       Practice Mode
     </h3>
 
-    <ion-radio-group [(ngModel)]="mode">
+    <ion-radio-group [(ngModel)]="mode" class="section">
 
-      <ion-item [class.selected]="mode === 'text'">
+      <ion-item [class.selected]="mode === 'text'" lines="none">
         <ion-radio slot="start" value="text"></ion-radio>
         <ion-label>Answer the Question</ion-label>
       </ion-item>
 
-      <ion-item [class.selected]="mode === 'mcq'">
+      <ion-item [class.selected]="mode === 'mcq'" lines="none">
         <ion-radio slot="start" value="mcq"></ion-radio>
         <ion-label>Choose the Correct Answer (MCQ)</ion-label>
       </ion-item>

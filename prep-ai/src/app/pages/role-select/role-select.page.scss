@@ -72,7 +72,7 @@ ion-button[disabled] {
   color: #10b981;
 }
 .practice-card ion-item.selected {
-  background: rgba(59, 130, 246, 0.08);
+  // background: rgba(59, 130, 246, 0.08);
   border-radius: 12px;
 }
 .practice-card ion-item {
@@ -93,13 +93,14 @@ ion-button[disabled] {
 
   font-size: 16px;
   font-weight: 600;
-  color: #111827;
+  // color: #111827;
+  color: #fafafa;
   margin: 22px 0 10px;
 }
 
 .practice-card h3 ion-icon {
   font-size: 18px;
-  color: #3b82f6;
+  color: #fafafa;
 }
 @keyframes fadeUp {
   from {
@@ -116,7 +117,7 @@ ion-button[disabled] {
   animation: fadeUp 0.75s ease-out;
 }
 .practice-card {
-  background: #ffffff;
+  // background: #ffffff;
   border-radius: 24px;
   padding: 22px 18px;
   margin-top: 2.5rem;
@@ -168,7 +169,9 @@ ion-button[disabled] {
 .swipe-text {
   position: relative;
   z-index: 2;
-  color: #065f46;
+  // color: #065f46;
+  color: #fafafa;
+
   font-weight: 600;
   font-size: 15px;
   pointer-events: none;
@@ -213,4 +216,38 @@ ion-button[disabled] {
 
 .swipe-thumb ion-icon {
   font-size: 22px;
+}
+.mode {
+    // display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f4f6fa;
+  border-radius: 14px;
+  padding: 0px;
+  margin-bottom: 14px;
+  border: 1px solid #e8ecf3;
+    background: linear-gradient(135deg, #c8d8df, #f6f6f6);
+      box-shadow: 0 14px 28px rgba(142, 175, 150, 0.35);
+}
+.difficulty-row {
+  display: flex;
+  gap: 12px;
+}
+
+.difficulty-row ion-item {
+  --inner-padding-end: 8px;
+  --padding-start: 8px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.section {
+  ion-item {
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 14px;
+    border: 1px solid #e8ecf3;
+    background: linear-gradient(135deg, #c8d8df, #f6f6f6);
+    box-shadow: 0 14px 28px rgba(142, 175, 150, 0.35);
+  }
 }

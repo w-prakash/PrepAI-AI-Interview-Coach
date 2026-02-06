@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
 
     <ion-buttons slot="start" *ngIf="finished || (!questions.length && !finished)">
@@ -7,82 +7,132 @@
 
     <ion-title>🎤 Mock Interview</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 
-<ion-content class="ion-padding">
+<ion-content>
+    <!-- SCORE SUMMARY -->
+<div class="summary-sheet">
+  <div class="summary-header">
+
+    <!-- Back button -->
+    <ion-icon
+      name="arrow-back-outline"
+      class="back-icon"
+      [routerLink]="['/tabs/dashboard']">
+    </ion-icon>
+
+    <!-- Title -->
+    <h2 class="setup-title" *ngIf="questions.length == 0">
+      Interview Setup
+    </h2>
+        <h2 class="setup-title"    *ngIf="finished && result">
+    🏆 Interview Result <br>
+
+    </h2>
+    <ion-label  *ngIf="finished && result" class="setup-title score">
+       Score: {{ result.score }}/10
+    </ion-label>
+
+  </div>
+
+  <!-- CENTER TIMER -->
+  <div class="timer-center" *ngIf="questions.length && !finished">
+
+    <div class="circle-wrap">
+      <div 
+        class="circle"
+        [style.--progress]="timeLeft / timePerQuestion"
+        [class.danger]="timeLeft <= 10">
+
+        <div class="circle-inner">
+          {{ timeLeft }}s
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
   <!-- SETUP SCREEN -->
-<div *ngIf="!questions.length && !finished">
-
-  <h2>Interview Setup</h2>
-
-  <!-- 🔥 ROLE SELECTION -->
-<!-- ROLE SELECT -->
-<ion-item button (click)="openRoleModal()">
-  <ion-label>
-    Role / Technology
-    <p style="font-size: 13px; color: gray;">
-      {{ selectedRole || 'Select role' }}
-    </p>
-  </ion-label>
-  <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-</ion-item>
-<!-- CUSTOM ROLE INPUT -->
-<ion-item *ngIf="selectedRole === 'custom'">
-  <ion-label position="stacked">Enter Custom Role</ion-label>
-  <ion-input 
-    [(ngModel)]="customRole" 
-    placeholder="e.g. DevOps, AWS, Kubernetes">
-  </ion-input>
-</ion-item>
+<!-- SETUP SCREEN -->
+<div *ngIf="!questions.length && !finished" class="setup-wrap ion-pad">
 
 
-  <!-- DIFFICULTY -->
-  <ion-item>
-    <ion-label>Difficulty</ion-label>
-    <ion-select [(ngModel)]="difficulty">
+  <div class="setup-card">
+
+    <!-- ROLE -->
+    <div class="field-card" (click)="openRoleModal()">
+      <div class="field-left">
+        <div class="field-label">Role / Technology</div>
+        <div class="field-value">
+          {{ selectedRole || 'Select role' }}
+        </div>
+      </div>
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
+
+    <!-- CUSTOM ROLE -->
+    <div class="field-card" *ngIf="selectedRole === 'custom'">
+      <div class="field-label">Custom Role</div>
+      <ion-input
+        [(ngModel)]="customRole"
+        placeholder="DevOps, AWS, Kubernetes">
+      </ion-input>
+    </div>
+
+    <!-- DIFFICULTY -->
+<div class="field-card">
+  <div class="field-left">
+    <div class="field-label">Difficulty</div>
+  </div>
+
+  <div class="field-right">
+    <ion-select [(ngModel)]="difficulty" interface="popover">
       <ion-select-option value="easy">Easy</ion-select-option>
       <ion-select-option value="medium">Medium</ion-select-option>
       <ion-select-option value="hard">Hard</ion-select-option>
     </ion-select>
-  </ion-item>
-
-  <!-- NUMBER OF QUESTIONS -->
-  <ion-item>
-    <ion-label>Number of Questions</ion-label>
-    <ion-select [(ngModel)]="count">
-      <ion-select-option [value]="5">5</ion-select-option>
-      <ion-select-option [value]="10">10</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-button expand="block" color="success" (click)="start()">
-    🎤 Start Interview
-  </ion-button>
-
+  </div>
 </div>
+
+
+    <!-- COUNT -->
+    <div class="field-card">
+      <div class="field-left">
+        <div class="field-label">Number of Questions</div>
+      </div>
+  <div class="field-right">
+
+      <ion-select [(ngModel)]="count" interface="popover">
+        <ion-select-option [value]="1">1</ion-select-option>
+        <ion-select-option [value]="10">10</ion-select-option>
+      </ion-select>
+      </div>
+    </div>
+
+    <!-- START BUTTON -->
+    <ion-button expand="block" class="start-btn" (click)="start()">
+      <ion-icon name="mic-outline" slot="start"></ion-icon>
+      Start Interview
+    </ion-button>
+
+  </div>
+</div>
+
 
 
 
   <!-- QUESTION SCREEN -->
 <!-- QUESTION SCREEN -->
-<div *ngIf="questions.length && !finished">
-<!-- TIMER BAR -->
-<ion-item lines="none">
-  <ion-label>
-    ⏱ Time Left: 
-    <span [style.color]="timeLeft <= 10 ? 'red' : 'green'">
-      {{ timeLeft }}s
-    </span>
-  </ion-label>
-</ion-item>
+<div *ngIf="questions.length && !finished" style="padding: 1rem;">
+  <h3 class="header-ques">Question: {{ currentIndex + 1 }} / {{ questions.length }}</h3>
 
-  <h3>Question {{ currentIndex + 1 }} / {{ questions.length }}</h3>
-
-  <ion-card>
+  <ion-card class="questions-card ion-no-margin" >
     <ion-card-content>
-      {{ questions[currentIndex]?.question }}
+   {{ currentIndex + 1 }}. {{ questions[currentIndex]?.question }}
     </ion-card-content>
   </ion-card>
 <!-- <ion-progress-bar 
@@ -97,7 +147,7 @@
   <ion-list>
     <ion-radio-group [(ngModel)]="questions[currentIndex].userIndex">
 
-      <ion-item *ngFor="let opt of questions[currentIndex].options; let i = index">
+      <ion-item *ngFor="let opt of questions[currentIndex].options; let i = index" lines="none" class="questions-card">
         <ion-label>{{ opt }}</ion-label>
         <ion-radio slot="start" [value]="i"></ion-radio>
       </ion-item>
@@ -105,21 +155,20 @@
     </ion-radio-group>
   </ion-list>
 
-  <ion-button expand="block" color="primary" (click)="submitAnswer()">
+  <ion-button expand="block" class="start-btn" (click)="submitAnswer()">
     {{ currentIndex === questions.length - 1 ? 'Finish Interview' : 'Next Question' }}
   </ion-button>
 
 </div>
 
 <!-- RESULT SCREEN -->
-<div *ngIf="finished && result">
+<div *ngIf="finished && result" class="ion-padding">
 
-  <h2>🏆 Interview Result</h2>
+  <!-- <h2> Interview Result</h2> -->
 
   <ion-card>
     <ion-card-content>
 
-      <h3>Score: {{ result.score }}/10</h3>
 
       <h4>Strengths</h4>
       <ul>
@@ -133,23 +182,82 @@
 
       <h4>Final Feedback</h4>
       <p>{{ result.feedback }}</p>
+    <ion-button 
+  expand="block"
+  fill="outline"
+  color="primary"
+  (click)="reviewMode = true">
+
+  📋 Review Your Answers
+</ion-button><!-- REVIEW ANSWERS SCREEN -->
+<div *ngIf="reviewMode">
+
+  <h2>📋 Review Answers</h2>
+
+  <ion-card *ngFor="let q of questions; let qi = index">
+
+    <ion-card-header>
+      <ion-card-title>
+        Q{{ qi + 1 }}. {{ q.question }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+   <ion-radio-group [value]="q.userIndex">
+
+  <ion-item
+    *ngFor="let opt of q.options; let oi = index"
+    lines="none"
+    class="review-option"
+    [class.correct]="oi === q.correctIndex"
+    [class.wrong]="oi === q.userIndex && oi !== q.correctIndex">
+
+    <!-- radio -->
+    <ion-radio
+      slot="start"
+      [value]="oi"
+      disabled="true">
+    </ion-radio>
+
+    <!-- text -->
+    <ion-label>{{ opt }}</ion-label>
+
+    <!-- badges -->
+    <ion-badge *ngIf="oi === q.correctIndex" color="success">
+      Correct
+    </ion-badge>
+
+    <ion-badge *ngIf="oi === q.userIndex && oi !== q.correctIndex" color="danger">
+      Your Answer
+    </ion-badge>
+
+  </ion-item>
+
+</ion-radio-group>
+
+
+      <div class="explain-box" *ngIf="q.explanation">
+        🧠 {{ q.explanation }}
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- <ion-button expand="block" (click)="reviewMode = false">
+    Close Review
+  </ion-button> -->
+
+</div>
 
     </ion-card-content>
   </ion-card>
-
-  <!-- 🔥 SHOW BUTTONS ONLY AFTER INTERVIEW FINISH -->
-  <ion-button 
-    expand="block" 
-    color="primary"
-    class="ion-margin-top"
-    (click)="goToDashboard()">
-
-    🏠 Go to Dashboard
-  </ion-button>
+  
 
   <ion-button 
     expand="block" 
-    color="medium"
+     class="start-btn" 
     (click)="restartInterview()">
 
     🔁 Retry Mock Interview
@@ -158,6 +266,14 @@
 </div>
 
 
+
   <ion-spinner *ngIf="loading"></ion-spinner>
 
 </ion-content>
+<ion-footer *ngIf="finished && result">
+      <ion-button expand="block" class="dashboard-btn"   (click)="goToDashboard()">
+      Go to Dashboard
+    </ion-button>
+
+
+</ion-footer>

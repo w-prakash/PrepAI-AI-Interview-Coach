@@ -3,23 +3,25 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../services/ai';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RoleSelectorComponent } from 'src/app/components/role-selector/role-selector.component';
 
 @Component({
   selector: 'app-mock-interview',
   templateUrl: './mock-interview.page.html',
+  styleUrls: ['./mock-interview.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 export class MockInterviewPage implements OnInit {
 timeLeft = 60;          // seconds per question
 timer: any = null;
-timePerQuestion = 60;  // configurable
+timePerQuestion = 180;  // configurable
+reviewMode = false;
 
   role = '';
   difficulty = 'easy';
-  count = 5;
+  count = 1;
 
   questions: any[] = [];
   currentIndex = 0;
@@ -153,6 +155,7 @@ finishInterview() {
     next: (res: any) => {
       this.result = res;
       this.finished = true;
+      // this.reviewMode = true;
       this.loading = false;
     },
     error: () => {
