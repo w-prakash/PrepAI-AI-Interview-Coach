@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,12 +16,13 @@ import { RoleSelectorComponent } from 'src/app/components/role-selector/role-sel
 export class MockInterviewPage implements OnInit {
 timeLeft = 60;          // seconds per question
 timer: any = null;
-timePerQuestion = 180;  // configurable
+timePerQuestion = 60;  // configurable
 reviewMode = false;
+@ViewChild('reviewSection') reviewSection!: ElementRef;
 
   role = '';
   difficulty = 'easy';
-  count = 1;
+  count = 5;
 
   questions: any[] = [];
   currentIndex = 0;
@@ -258,6 +259,15 @@ autoSubmit() {
     this.finishInterview();
   }
 }
+goToReview() {
+  this.reviewMode = !this.reviewMode;
 
+  setTimeout(() => {
+    this.reviewSection.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, 100);
+}
 
 }

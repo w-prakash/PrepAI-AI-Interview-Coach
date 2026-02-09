@@ -291,11 +291,14 @@ ion-footer {
 .correct {
   background: rgba(34, 197, 94, 0.15);
   border-left: 4px solid #22c55e;
+  color: #fff;
 }
 
 .wrong {
   background: rgba(239, 68, 68, 0.15);
   border-left: 4px solid #ef4444;
+  color: #fff;
+
 }
 
 .explain-box {
@@ -303,7 +306,7 @@ ion-footer {
   padding: 10px;
   border-radius: 10px;
   background: #1f2937;
-  font-size: 14px;
+  font-size: 16px;
   opacity: 0.9;
 }
 .score {
@@ -316,3 +319,60 @@ ion-footer {
     font-size: 18px;
     letter-spacing: 2px;
 }
+
+.mock-results {
+  ion-card {
+    --background: none;
+    ion-card-content {
+      font-size: 1rem;
+      color: #fff;
+      letter-spacing: 0.5px;
+      padding: 0px;
+      h4 {
+        background: #ffffff;
+    height: 2rem;
+    align-items: center;
+    display: flex;
+    border-radius: 10px 10px 0px 0px;
+    padding: 1rem;
+    color: #000;
+    font-weight: 600;
+    width: 100%;
+
+      }
+      ul,p {
+background: #cbc8c82b;
+    border-radius: 0px 0px 10px 10px;
+    margin-top: -2px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+        font-size: 1rem;
+    letter-spacing: 0.5px;
+
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+  ion-item {
+    --background: none;
+  }
+  ion-card-title {
+    font-size: 1rem;
+  }
+}
+.review-ans {
+  --background: rgba(255, 255, 255, 0.12);
+    --color: #ffffff;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+  hr {
+        background: #eaeef0a1;
+    height: 5px;
+    border-radius: 300px;
+    width: 150px;
+    margin-bottom: 1rem;
+  }

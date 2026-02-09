@@ -107,8 +107,11 @@
   <div class="field-right">
 
       <ion-select [(ngModel)]="count" interface="popover">
-        <ion-select-option [value]="1">1</ion-select-option>
+        <ion-select-option [value]="5">5</ion-select-option>
         <ion-select-option [value]="10">10</ion-select-option>
+        <ion-select-option [value]="15">15</ion-select-option>
+        <ion-select-option [value]="20">20</ion-select-option>
+        <ion-select-option [value]="25">25</ion-select-option>
       </ion-select>
       </div>
     </div>
@@ -162,7 +165,7 @@
 </div>
 
 <!-- RESULT SCREEN -->
-<div *ngIf="finished && result" class="ion-padding">
+<div *ngIf="finished && result" class="ion-padding mock-results">
 
   <!-- <h2> Interview Result</h2> -->
 
@@ -184,21 +187,21 @@
       <p>{{ result.feedback }}</p>
     <ion-button 
   expand="block"
-  fill="outline"
-  color="primary"
-  (click)="reviewMode = true">
+  class="review-ans"
+  (click)="goToReview()">
 
   📋 Review Your Answers
-</ion-button><!-- REVIEW ANSWERS SCREEN -->
-<div *ngIf="reviewMode">
+</ion-button>
+<!-- REVIEW ANSWERS SCREEN -->
+<div *ngIf="reviewMode" #reviewSection>
 
-  <h2>📋 Review Answers</h2>
+  <!-- <h2>📋 Review Answers</h2> -->
 
   <ion-card *ngFor="let q of questions; let qi = index">
 
-    <ion-card-header>
+    <ion-card-header class="questions-card ">
       <ion-card-title>
-        Q{{ qi + 1 }}. {{ q.question }}
+        {{ qi + 1 }}. {{ q.question }}
       </ion-card-title>
     </ion-card-header>
 
@@ -209,7 +212,7 @@
   <ion-item
     *ngFor="let opt of q.options; let oi = index"
     lines="none"
-    class="review-option"
+    class="review-option questions-card"
     [class.correct]="oi === q.correctIndex"
     [class.wrong]="oi === q.userIndex && oi !== q.correctIndex">
 
@@ -242,9 +245,9 @@
       </div>
 
     </ion-card-content>
+<hr>
 
   </ion-card>
-
   <!-- <ion-button expand="block" (click)="reviewMode = false">
     Close Review
   </ion-button> -->
@@ -255,13 +258,7 @@
   </ion-card>
   
 
-  <ion-button 
-    expand="block" 
-     class="start-btn" 
-    (click)="restartInterview()">
 
-    🔁 Retry Mock Interview
-  </ion-button>
 
 </div>
 
@@ -271,6 +268,13 @@
 
 </ion-content>
 <ion-footer *ngIf="finished && result">
+    <ion-button 
+    expand="block" 
+     class="start-btn" 
+    (click)="restartInterview()">
+
+    🔁 Retry Mock Interview
+  </ion-button>
       <ion-button expand="block" class="dashboard-btn"   (click)="goToDashboard()">
       Go to Dashboard
     </ion-button>
