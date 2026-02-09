@@ -18,5 +18,42 @@
       {{ explanation }}
     </ion-card-content>
   </ion-card>
+  <!-- AI REPLY -->
+   <div #replyBlock *ngIf="followReply">
 
+  <ion-card *ngIf="followReply" class="ion-margin-top">
+    <ion-card-header>
+      <ion-card-title>AI Reply</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="white-space: pre-line;">
+      {{ followReply }}
+    </ion-card-content>
+  </ion-card>
+</div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+
+    <ion-item lines="none">
+      <ion-textarea
+        [(ngModel)]="followText"
+        auto-grow="true"
+        placeholder="Ask a follow-up...">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      class="ask-ai ion-margin-top"
+      (click)="askFollowUp()"
+      [disabled]="loading || !followText">
+
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+      <span *ngIf="!loading">🤖 Ask AI for more </span>
+      <span *ngIf="loading">Thinking…</span>
+
+    </ion-button>
+
+  </ion-toolbar>
+</ion-footer>

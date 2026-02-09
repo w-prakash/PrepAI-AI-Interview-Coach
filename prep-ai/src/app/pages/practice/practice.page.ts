@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { AiService } from '../../services/ai';
 import { AlertController } from '@ionic/angular/standalone';
@@ -11,7 +11,7 @@ import { AlertController } from '@ionic/angular/standalone';
   templateUrl: './practice.page.html',
   styleUrls: ['./practice.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class PracticePage implements OnInit {
 selectedTopic: string | null = null;

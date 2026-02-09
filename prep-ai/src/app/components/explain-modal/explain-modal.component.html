@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding bg #pageContent">
 
   <!-- MAIN EXPLANATION -->
   <ion-card>
@@ -16,43 +16,43 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- 🔥 FOLLOW-UP CHAT SECTION -->
-  <ion-card>
+  <!-- AI REPLY -->
+   <div #replyBlock *ngIf="followReply">
+
+  <ion-card *ngIf="followReply" class="ion-margin-top">
     <ion-card-header>
-      <ion-card-title>Ask a follow-up</ion-card-title>
+      <ion-card-title>AI Reply</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content>
-
-      <ion-textarea 
-        [(ngModel)]="followText"
-        placeholder="Ask something like: 
-- Explain in simpler terms
-- Give one more example
-- Ask me one practice question">
-      </ion-textarea>
-
-      <ion-button 
-        expand="block" 
-        color="primary" 
-        class="ion-margin-top"
-        (click)="askFollowUp()"
-        [disabled]="loading">
-
-        <ion-spinner *ngIf="loading" name="dots" style="margin-right: 8px;"></ion-spinner>
-        <span *ngIf="!loading">🤖 Ask AI</span>
-        <span *ngIf="loading">Thinking…</span>
-
-      </ion-button>
-
-      <!-- AI REPLY -->
-      <ion-card *ngIf="followReply" class="ion-margin-top">
-        <ion-card-content style="white-space: pre-line;">
-          {{ followReply }}
-        </ion-card-content>
-      </ion-card>
-
+    <ion-card-content style="white-space: pre-line;">
+      {{ followReply }}
     </ion-card-content>
   </ion-card>
-
+</div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+
+    <ion-item lines="none">
+      <ion-textarea
+        [(ngModel)]="followText"
+        auto-grow="true"
+        placeholder="Ask a follow-up...">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      class="ask-ai ion-margin-top"
+      (click)="askFollowUp()"
+      [disabled]="loading || !followText">
+
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+      <span *ngIf="!loading">🤖 Ask AI for more </span>
+      <span *ngIf="loading">Thinking…</span>
+
+    </ion-button>
+
+  </ion-toolbar>
+</ion-footer>
+

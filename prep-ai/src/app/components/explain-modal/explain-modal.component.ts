@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { IonContent, IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../services/ai';
@@ -7,11 +7,13 @@ import { AiService } from '../../services/ai';
 @Component({
   selector: 'app-explain-modal',
   templateUrl: './explain-modal.component.html',
+  styleUrls: ['./explain-modal.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class ExplainModalComponent {
-
+@ViewChild('replyBlock') replyBlock!: ElementRef;
+@ViewChild(IonContent) pageContent!: IonContent;
   @Input() explanation = '';
   @Input() question = '';
 
@@ -51,5 +53,14 @@ export class ExplainModalComponent {
         this.loading = false;
       }
     });
+setTimeout(async () => {
+  if (!this.replyBlock) return;
+
+  const y = this.replyBlock.nativeElement.offsetTop;
+  await this.pageContent.scrollToPoint(0, y, 500);
+
+  this.followText = "";
+}, 1200);
+
   }
 }

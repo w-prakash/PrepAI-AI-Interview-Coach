@@ -1,0 +1,26 @@
+ion-content {
+  --background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+
+}
+ion-card {
+        --background: #f4f4f4;
+    color: #315162;
+    letter-spacing: 1px;
+    text-align: justify;
+    font-weight: 500 !important;
+    border-radius: 1rem;
+    // border-left: 5px solid #ef4444;
+    // border-bottom: 12px solid #ef4444;
+}
+.ask-ai{
+        --background: linear-gradient(222deg, #2fbd6b, #0a6755);
+    --color: #ffffff;
+        height: 60px;
+    transition: transform 120ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+ion-item {
+    border-radius: 1rem;
+}
+h2 {
+    color: #fff;
+}

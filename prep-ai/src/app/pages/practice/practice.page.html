@@ -91,7 +91,7 @@
 
 
             <!-- QUESTION -->
-            <h2 class="question-text">
+            <h2 class="question-text questions-card">
               {{ currentQuestion.question }}
             </h2>
 
@@ -106,11 +106,11 @@
             </div>
 
             <!-- MCQ ANSWER -->
-      <div *ngIf="currentQuestion.mode === 'mcq'">
+      <div *ngIf="currentQuestion.mode === 'mcq'" class="mcq">
   <ion-radio-group [(ngModel)]="currentQuestion.userIndex">
-    <ion-item
+    <ion-item lines="none"
       *ngFor="let opt of currentQuestion.options; let i = index"
-      class="mcq-option"
+      class="mcq-option  questions-card"
       button
       (click)="currentQuestion.userIndex = i"
       [class.selected]="currentQuestion.userIndex === i"

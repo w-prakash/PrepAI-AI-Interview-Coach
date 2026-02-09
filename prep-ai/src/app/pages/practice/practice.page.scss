@@ -357,10 +357,10 @@ ion-radio-group {
 }
 
 .chevrons span {
-  width: 10px;
-  height: 10px;
-  border-right: 2px solid #9ca3af;
-  border-bottom: 2px solid #9ca3af;
+  width: 15px;
+  height: 15px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
   transform: rotate(-135deg);
   opacity: 0.4;
 
@@ -373,8 +373,8 @@ ion-radio-group {
 
 /* Text */
 .hint-text {
-  font-size: 1rem;
-  color: #5a5a5b;
+  font-size: 1.25rem;
+  color: #fafafa;
   letter-spacing: 0.2px;
 }
 
@@ -472,7 +472,7 @@ ion-radio-group {
 
 /* CARD */
 .question-card {
-  background: #fff;
+  background: none;
   border-radius: 22px;
   padding: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
@@ -569,14 +569,13 @@ ion-radio {
 }
 
 .topic-pill {
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-  color: #3f5bd8;
-  letter-spacing: 0.3px;
-}
+    padding: 12px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    color: #3f5bd8;
+    box-shadow: 0 10px 24px rgb(8 8 8 / 35%), inset 0 1px 0 rgba(255, 255, 255, 0.25);}
 
 
 @keyframes bounce {
@@ -654,7 +653,7 @@ padding: 14px 24px;
     font-size: 13px;
     font-weight: 600;
     color: #2d4957;
-    background: #2c485626;
+     background: rgb(210 212 210 / 73%);
     white-space: nowrap;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -666,9 +665,9 @@ padding: 14px 24px;
 
 /* ACTIVE */
 .step-pill.active {
-    background: #354147;
-    color: #fff;
-    box-shadow: 0 6px 14px rgb(53 65 71 / 30%);
+    background: #ffffff;
+    color: #2d4957;
+    box-shadow: 0 6px 14px rgba(53, 65, 71, 0.3);
 }
 .stepper-wrapper {
   position: relative;
@@ -712,4 +711,27 @@ padding: 14px 24px;
 
 .scroll-arrow.right {
   right: -8px;
+}
+.questions-card {
+      display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f4f6fa;
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 14px;
+  border: 1px solid #e8ecf3;
+    background: linear-gradient(135deg, #c8d8df, #f6f6f6);
+     box-shadow: 0px 1px 12px rgb(19 32 38);
+     ion-card-content {
+            color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+
+     }
+}
+.mcq {
+  ion-item {
+    --background: none;
+  }
 }
