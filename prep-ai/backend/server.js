@@ -112,19 +112,27 @@ app.post("/ai/mcq-question", async (req, res) => {
 
     console.log("MCQ REQ:", req.body);
 
+    // 🔥 add uniqueness seed
+    const nonce = Date.now() + "-" + Math.floor(Math.random() * 100000);
+
     const prompt = `
 You are an interview coach.
 
 Generate ONE ${difficulty} level multiple-choice interview question for a ${role} developer.
 ${topic ? `The question MUST be strictly from the topic: ${topic}.` : ''}
+
+Uniqueness seed: ${nonce}
+
 Rules:
 - Return ONLY strict JSON
 - Exactly 4 options
 - One correct answer
 - The correct answer MUST be one of the options
-- Do NOT return A/B/C/D
+- Do NOT return A/B/C/D labels
 - Return the actual correct option text
-- ALSO provide a  explanation of why this option is correct
+- ALSO provide an explanation
+- Do NOT generate common or repeated interview questions
+- Make the question unique and vary structure (scenario, concept, or code based)
 
 JSON format:
 {
@@ -139,7 +147,8 @@ JSON format:
     const completion = await groq.chat.completions.create({
       model: "openai/gpt-oss-20b",
       messages: [{ role: "user", content: prompt }],
-      temperature: 0.4
+      temperature: 0.85,   // 🔥 increased
+      top_p: 0.9           // 🔥 added diversity
     });
 
     const text = completion.choices[0].message.content.trim();
@@ -162,7 +171,6 @@ JSON format:
       return res.status(500).json({ error: "Correct answer mismatch" });
     }
 
-    // 🔥 SEND EXPLANATION ALSO
     res.json({
       question: json.question,
       options: json.options,
@@ -176,6 +184,7 @@ JSON format:
     res.status(500).json({ error: "MCQ generation failed" });
   }
 });
+
 
 const PORT = process.env.PORT || 3000;
 
