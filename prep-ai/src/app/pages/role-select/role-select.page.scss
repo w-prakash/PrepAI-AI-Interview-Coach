@@ -83,7 +83,7 @@ ion-button[disabled] {
 }
 
 .practice-card ion-label {
-  font-size: 14.5px;
+  font-size: 1rem;
   color: #1f2937;
 }
 .practice-card h3 {
@@ -250,4 +250,13 @@ ion-button[disabled] {
     background: linear-gradient(135deg, #c8d8df, #f6f6f6);
     box-shadow: 0 14px 28px rgba(142, 175, 150, 0.35);
   }
+}
+.custome-role {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    color: #fafafa !important;
+    letter-spacing: 1px;
+}
+ion-input {
+  color: #fafafa;
 }

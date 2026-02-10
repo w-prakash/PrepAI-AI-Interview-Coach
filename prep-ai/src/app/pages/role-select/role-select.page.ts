@@ -15,7 +15,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class RoleSelectPage {
   difficulty: 'easy' | 'medium' | 'hard' = 'easy';
-  mode: 'text' | 'mcq' = 'mcq';
+  mode = 'mcq';
 @ViewChild('thumb', { static: false }) thumb!: ElementRef;
 @ViewChild('track', { static: false }) track!: ElementRef;
 @ViewChild('fill', { static: false }) fill!: ElementRef;
@@ -62,6 +62,11 @@ constructor(
   if (lastRole) {
     this.selectedRole = lastRole;
   }
+    const saved = localStorage.getItem('selectedMode');
+  if (saved) {
+    this.mode = saved;
+  }
+
   }
 
   getFilteredRoles(group: any) {
@@ -74,7 +79,7 @@ constructor(
 
 
 startPractice() {
-
+  console.log( this.selectedRole, this.mode);
   let roleToSave = this.selectedRole;
 
   // If custom role selected
@@ -203,10 +208,21 @@ triggerSuccess() {
   }, 300);
 }
 
+onModeChange(ev: any) {
+  console.log(ev);
+  localStorage.setItem('selectedMode', ev.detail.value);
+}
+
 resetSwipe() {
   this.thumb.nativeElement.style.transform = 'translateX(0)';
   this.fill.nativeElement.style.width = '0';
   this.thumb.nativeElement.classList.remove('success');
+}
+
+selectMode(val: string) {
+  this.mode = val;
+  localStorage.setItem('selectedMode', val);
+  console.log('Selected:', val);
 }
 
 }

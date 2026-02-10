@@ -52,19 +52,24 @@
       Practice Mode
     </h3>
 
-    <ion-radio-group [(ngModel)]="mode" class="section">
+<ion-radio-group
+  [(ngModel)]="mode"
+  class="section"
+  (ionChange)="onModeChange($event)">
 
-      <ion-item [class.selected]="mode === 'text'" lines="none">
-        <ion-radio slot="start" value="text"></ion-radio>
-        <ion-label>Answer the Question</ion-label>
-      </ion-item>
+  <ion-item lines="none">
+    <ion-radio slot="start" value="text"></ion-radio>
+    <ion-label>Answer the Question</ion-label>
+  </ion-item>
 
-      <ion-item [class.selected]="mode === 'mcq'" lines="none">
-        <ion-radio slot="start" value="mcq"></ion-radio>
-        <ion-label>Choose the Correct Answer (MCQ)</ion-label>
-      </ion-item>
+  <ion-item lines="none">
+    <ion-radio slot="start" value="mcq"></ion-radio>
+    <ion-label>Choose the Correct Answer (MCQ)</ion-label>
+  </ion-item>
 
-    </ion-radio-group>
+</ion-radio-group>
+
+
 
     <h3>
       <ion-icon name="code-slash-outline"></ion-icon>
@@ -81,7 +86,7 @@
     </ion-item>
 
     <ion-item *ngIf="selectedRole === 'custom'">
-      <ion-label position="stacked">Enter Custom Role</ion-label>
+      <ion-label position="stacked" class="custome-role">Enter Custom Role</ion-label>
       <ion-input
         [(ngModel)]="customRole"
         placeholder="e.g. DevOps, AWS, Kubernetes">

@@ -40,6 +40,9 @@ isSwiping = false;
 
   // 🔥 Called every time page opens
   ionViewWillEnter() {
+    //  this.questions = [];
+      this.prefetchedQuestion = null;
+
 const selectedTopic = localStorage.getItem('selectedTopic');
 
 if (selectedTopic) {
@@ -50,6 +53,7 @@ if (selectedTopic) {
     this.role = localStorage.getItem('selectedRole') || 'frontend';
     this.difficulty = localStorage.getItem('selectedDifficulty') || 'easy';
     this.mode = (localStorage.getItem('selectedMode') as any) || 'text';
+    console.log( this.mode);
 this.selectedTopic = localStorage.getItem('selectedTopic');
   const topicQuizMode = localStorage.getItem('practiceMode') === 'topic-quiz';
   // 🔥 SAVE FLAG
@@ -498,6 +502,20 @@ onStepperScroll() {
 
   this.showLeftArrow = el.scrollLeft > 4;
   this.showRightArrow = el.scrollLeft + el.clientWidth < el.scrollWidth - 4;
+}
+
+ionViewWillLeave() {
+console.log("ngOnDestroy");
+  localStorage.removeItem('sessionQuestions');
+  localStorage.removeItem('sessionAnswers');
+  localStorage.removeItem('currentQuestionIndex');
+  localStorage.removeItem('practiceMode');
+  localStorage.removeItem('currentAnswer');
+  localStorage.removeItem('currentAnswerIndex');
+  localStorage.removeItem('mcqCorrectIndex');
+  localStorage.removeItem('selectedTopic');
+  this.questions = [];
+
 }
 
 }

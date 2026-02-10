@@ -158,6 +158,10 @@
 .active-card {
   position: relative;
   z-index: 3;
+  height: 40rem;
+  transform: translateY(10px) scale(0.97);
+  opacity: 0.65;
+  z-index: 4;
 }
 
 /* Fake stacked cards */
@@ -166,6 +170,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  height: 40rem;
 }
 
 /* 2nd card */
@@ -476,6 +481,7 @@ ion-radio-group {
   border-radius: 22px;
   padding: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      padding-top: 0px;
 }
 
 /* STEPPER */
@@ -483,7 +489,7 @@ ion-radio-group {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 0px;
 }
 
 .step {
@@ -630,8 +636,8 @@ ion-radio {
 }
 .stepper-scroll {
   overflow-x: auto;
-  margin-bottom: 16px;
-  margin-top: 1rem;
+  margin-bottom: 0px;
+  margin-top: 0px;
   scrollbar-width: none;
 }
 
