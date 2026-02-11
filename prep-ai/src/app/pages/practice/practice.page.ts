@@ -504,18 +504,4 @@ onStepperScroll() {
   this.showRightArrow = el.scrollLeft + el.clientWidth < el.scrollWidth - 4;
 }
 
-ionViewWillLeave() {
-console.log("ngOnDestroy");
-  localStorage.removeItem('sessionQuestions');
-  localStorage.removeItem('sessionAnswers');
-  localStorage.removeItem('currentQuestionIndex');
-  localStorage.removeItem('practiceMode');
-  localStorage.removeItem('currentAnswer');
-  localStorage.removeItem('currentAnswerIndex');
-  localStorage.removeItem('mcqCorrectIndex');
-  localStorage.removeItem('selectedTopic');
-  this.questions = [];
-
-}
-
 }
