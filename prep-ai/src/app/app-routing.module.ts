@@ -59,6 +59,7 @@ loadComponent: () => import('./pages/history-detail/history-detail.page').then(m
 
 
 
+
 ];
 
 @NgModule({

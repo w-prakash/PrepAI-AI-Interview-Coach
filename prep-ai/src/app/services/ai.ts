@@ -17,7 +17,7 @@ console.log('baseUrl:', environment.baseUrl);
   }
 
   evaluate(role: string, question: string, userAnswer: string) {
-    return this.http.post<any>(`${this.apiUrl}ai/evaluatex`, {
+    return this.http.post<any>(`${this.apiUrl}ai/evaluate`, {
       role,
       question,
       userAnswer
@@ -32,6 +32,14 @@ console.log('baseUrl:', environment.baseUrl);
 }
 getMcqQuestion(role: string, difficulty: string,  topic?: any) {
   return this.http.post<any>(`${this.apiUrl}ai/mcq-question`, {
+    role,
+    difficulty,
+    topic
+  });
+}
+
+getGameMcqQuestion(role: string, difficulty: string,  topic?: any) {
+  return this.http.post<any>(`${this.apiUrl}ai/mcq-game-question`, {
     role,
     difficulty,
     topic

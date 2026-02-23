@@ -8,9 +8,16 @@
 </ion-header>
 
 <ion-content class="practice-session-bg">
+  <!-- FULL SCREEN COACH OVERLAY -->
+  <div *ngIf="showSwipeCoach" class="coach-overlay-full">
+    <div class="coach-box">
+      ⬆ Swipe up to move to next question  
+      <ion-button size="small" class="coach-btn" (click)="closeCoach()">Got it</ion-button>
+    </div>
+  </div>
 
   <!-- SWIPE LAYER (DO NOT REMOVE) -->
-  <div
+  <div *ngIf="mode !== 'game'"
     class="swipe-layer"
     (pointerdown)="onSwipeStart($event)"
     (pointermove)="onSwipeMove($event)"
@@ -121,7 +128,6 @@
   </ion-radio-group>
 </div>
 
-
             <!-- NAV BUTTONS -->
             <!-- <ion-grid class="nav-buttons">
               <ion-row>
@@ -147,15 +153,7 @@
               </ion-row>
             </ion-grid> -->
 
-            <!-- SUBMIT -->
-            <ion-button
-              expand="block"
-              class="submit-btn"
-              (click)="submitAll()"
-              [disabled]="questions.length === 0">
-              Submit All
-            </ion-button>
-
+   
           </div>
 
           <!-- SWIPE HINT -->
@@ -166,10 +164,66 @@
             </div>
             <div class="hint-text">Swipe up for next question</div>
           </div>
-
         </div>
       </div>
     </div>
+    
   </div>
+                 <!-- SUBMIT -->
+            <ion-button
+              expand="block"
+              class="submit-btn"
+              (click)="submitAll()"
+              [disabled]="questions.length === 0">
+               Finish Sessions
+            </ion-button>
+<!-- GAME MODE -->
+<div *ngIf="mode === 'game'" class="game-area">
+
+  <!-- STEP INDICATOR -->
+  <div class="stepper-wrapper">
+
+    <div class="scroll-arrow left" [class.visible]="showLeftArrow">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </div>
+
+    <div class="stepper-scroll" #stepperScroll (scroll)="onStepperScroll()">
+      <div class="stepper">
+        <div
+          #stepEl
+          class="step-pill"
+          *ngFor="let q of questions; let i = index"
+          [class.active]="i === currentIndex"
+          (click)="goToQuestion(i)">
+          {{ i + 1 }}
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-arrow right" [class.visible]="showRightArrow">
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
+
+  </div>
+
+  <!-- QUESTION + BUBBLES -->
+  <div class="qa-wrapper" [class.qa-animate]="animateQA">
+
+    <h2 class="question-text questions-card">
+      {{ currentQuestion.question }}
+    </h2>
+  </div>
+    <div class="bubble-area">
+      <div
+        class="answer-bubble"
+        *ngFor="let b of gameBubbles"
+        [style.left]="b.left"
+        [style.animation-duration]="b.duration + 's'"
+        (click)="tapBubble(b.index)"
+        (animationend)="onBubbleEnd()">
+        {{ b.text }}
+      </div>
+    </div>
+</div>
 
 </ion-content>

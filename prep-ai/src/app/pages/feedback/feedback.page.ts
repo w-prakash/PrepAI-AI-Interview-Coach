@@ -76,7 +76,7 @@ this.weakestIndex = -1;
     session.forEach((q: any, index: number) => {
 
       // MCQ MODE
-      if (q.mode === 'mcq') {
+      if (q.mode === 'mcq' || q.mode === 'game') {
         const isCorrect = q.userIndex === q.correctIndex;
         const score = isCorrect ? 10 : 3;
     const correctText = q.explanation;

@@ -354,5 +354,8 @@ startMockInterview() {
   this.router.navigate(['/tabs/mock-interview']);
 }
 
+openGame() {
+  this.router.navigate(['/game-role']);
+}
 
 }

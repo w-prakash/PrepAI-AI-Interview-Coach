@@ -23,23 +23,32 @@ showLeftArrow = false;
 showRightArrow = false;
 prefetchedQuestion: any = null;
 showSwipeHint = true;
-
 startY = 0;
 deltaY = 0;
 isSwiping = false;
   questions: any[] = [];
   currentIndex = 0;
   loading = true;
-
-  mode: 'text' | 'mcq' = 'text';
+  mode: 'text' | 'mcq' | 'game' = 'text';
   role = 'frontend';
   difficulty = 'easy';
+  gameBubbles: any[] = [];
+gameLives = 3;
+gameScore = 0;
+animateQA = false;
+questionAdvanced = false;
+showSwipeCoach = false;
+
   constructor(private router: Router, private ai: AiService, private alertController: AlertController) {}
 
   ngOnInit() {}
 
   // 🔥 Called every time page opens
   ionViewWillEnter() {
+
+  if (!localStorage.getItem('swipeCoachSeen')) {
+    this.showSwipeCoach = true;
+  }
     //  this.questions = [];
       this.prefetchedQuestion = null;
 
@@ -59,7 +68,18 @@ this.selectedTopic = localStorage.getItem('selectedTopic');
   // 🔥 SAVE FLAG
   this.isTopicQuiz = topicQuizMode;
 
+    if (this.mode === 'game') {
+  this.gameLives = 3;
+  this.gameScore = 0;
 
+  // game should always use mcq engine
+  this.questions = [];
+  this.currentIndex = 0;
+  this.prefetchedQuestion = null;
+
+  this.addNewQuestion();
+  return;
+}
   // 🔥 IF QUIZ FROM WEAK TOPIC MODE
   if (topicQuizMode && this.selectedTopic) {
     this.loadTopicQuiz(this.selectedTopic);
@@ -170,6 +190,11 @@ this.selectedTopic = localStorage.getItem('selectedTopic');
     
   }
 
+  setTimeout(() => {
+    this.spawnBubbles();
+    this.animateQA = true;
+  }, 120);
+
   // 2️⃣ Prefetch the next one in background
   try {
     this.prefetchedQuestion = await this.fetchQuestion();
@@ -270,7 +295,27 @@ this.selectedTopic = localStorage.getItem('selectedTopic');
 
 fetchQuestion(): Promise<any> {
   return new Promise((resolve, reject) => {
-
+    if(this.mode === 'game') {
+          this.ai.getGameMcqQuestion(
+        this.role,
+        this.difficulty,
+        localStorage.getItem('selectedTopic')
+      ).subscribe({
+        next: (res: any) => {
+          resolve({
+            mode: 'game',
+            question: res.question,
+            topic: res.topic,
+            options: res.options,
+            correctIndex: res.correctIndex,
+            explanation: res.explanation || '',
+            userIndex: null
+          });
+        },
+        error: reject
+      });
+      return
+    }
     if (this.mode === 'mcq') {
       this.ai.getMcqQuestion(
         this.role,
@@ -502,6 +547,56 @@ onStepperScroll() {
 
   this.showLeftArrow = el.scrollLeft > 4;
   this.showRightArrow = el.scrollLeft + el.clientWidth < el.scrollWidth - 4;
+}
+
+spawnBubbles() {
+  this.questionAdvanced = false;
+
+  if (!this.currentQuestion?.options) return;
+
+  const lanes = ['10%', '30%', '50%', '70%', '90%'];
+
+  this.gameBubbles = this.currentQuestion.options.map((opt: string, i: number) => ({
+    text: opt,
+    index: i,
+    left: lanes[i % lanes.length],
+    duration: 25 + Math.random() * 6   // slow bubbles
+  }));
+}
+
+
+
+tapBubble(i: number) {
+  if (this.loading || !this.currentQuestion) return;
+
+  this.currentQuestion.userIndex = i;
+
+  // 🔥 SAVE immediately so payload has it
+  this.saveSession();
+
+  if (i === this.currentQuestion.correctIndex) {
+    this.gameScore += 10;
+  } else {
+    this.gameLives = Math.max(0, this.gameLives - 1);
+  }
+
+  if (this.gameLives === 0) {
+    this.finalSubmit();
+    return;
+  }
+
+  setTimeout(() => this.addNewQuestion(), 300);
+}
+
+onBubbleEnd() {
+  if (this.questionAdvanced) return;
+  this.questionAdvanced = true;
+  this.addNewQuestion();
+  this.animateQA = false;
+}
+closeCoach() {
+  this.showSwipeCoach = false;
+  localStorage.setItem('swipeCoachSeen', '1');
 }
 
 }
